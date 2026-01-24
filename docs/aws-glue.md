@@ -2,7 +2,11 @@
 
 Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/release-notes.html) for the open-source equivalent version, [Apache Spark](apache-spark.md).
 
+Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided) for Python modules already in AWS Glue.
+
 ## AWS Glue Docker 
+
+Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/develop-local-docker-image.html) on usage of the Docker image for development and testing.
 
 From [DockerHub > amazon/aws-glue-libs](https://hub.docker.com/r/amazon/aws-glue-libs), we will use Glue 5.0 as the starting point by pulling the following image:
 ```bash
@@ -35,6 +39,7 @@ To run AWS Glue locally using Docker against [word_count.py](/src/word_count.py)
 
 ### AWS Glue Docker Testing
 
+To run AWS Glue pytest, use the following command:
 ```bash
 docker run -i --rm \
     -v ~/.aws:/home/hadoop/.aws \
