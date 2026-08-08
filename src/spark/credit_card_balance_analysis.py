@@ -1,5 +1,5 @@
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.types import DateType, DecimalType, IntegerType, StructType, StringType, StructField
+from pyspark.sql.types import DateType, DecimalType, StructType, StructField
 
 
 def read_credit_card_total_balance(spark_session: SparkSession) -> DataFrame:
@@ -11,7 +11,7 @@ def read_credit_card_total_balance(spark_session: SparkSession) -> DataFrame:
     df: DataFrame = spark_session.read \
         .option("header", True) \
         .schema(schema) \
-        .csv("/home/hadoop/workspace/temp/input/RCCCBBALTOT.csv")
+        .csv("/home/hadoop/temp/input/RCCCBBALTOT.csv")
     return df
 
 
@@ -24,7 +24,7 @@ def read_credit_card_revolving_balance(spark_session: SparkSession) -> DataFrame
     df: DataFrame = spark_session.read \
         .option("header", True) \
         .schema(schema) \
-        .csv("/home/hadoop/workspace/temp/input/RCCCBBALREV.csv")
+        .csv("/home/hadoop/temp/input/RCCCBBALREV.csv")
     return df
 
 
@@ -39,7 +39,8 @@ def calculate_credit_card_payment(total_balance_df: DataFrame, revolving_balance
 def write_payment(payment_df: DataFrame) -> None:
     payment_df.write \
         .option("header", True) \
-        .csv("/home/hadoop/workspace/temp/output/payment")
+        .mode("overwrite") \
+        .csv("/home/hadoop/temp/output/payment")
 
 
 def main():

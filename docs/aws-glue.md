@@ -4,18 +4,18 @@ Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/release-notes.html) f
 
 Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-libraries.html#glue-modules-provided) for Python modules already in AWS Glue.
 
-## AWS Glue Docker 
+## AWS Glue Docker
 
 Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/develop-local-docker-image.html) on usage of the Docker image for development and testing.
 
 From [DockerHub > amazon/aws-glue-libs](https://hub.docker.com/r/amazon/aws-glue-libs), we will use Glue 5.0 as the starting point by pulling the following image:
 ```bash
-docker pull amazon/aws-glue-libs:5
+docker pull amazon/aws-glue-libs:5.0.9
 ```
 
 ### AWS Glue Docker Run
 
-To run AWS Glue locally using Docker against [word_count.py](/src/word_count.py), follow these steps:
+To run AWS Glue locally using Docker against [word_count.py](/src/spark/word_count.py), follow these steps:
 1. Disable Windows path resolution if running via Git Bash
    ```bash
    export MSYS_NO_PATHCONV=1
@@ -24,39 +24,37 @@ To run AWS Glue locally using Docker against [word_count.py](/src/word_count.py)
    ```bash
    WORKSPACE_LOCATION=$PWD
    SCRIPT_FILE_NAME=word_count.py
-   SCRIPT_ARGS=/home/hadoop/workspace/src/$SCRIPT_FILE_NAME
+   SCRIPT_ARGS=/home/hadoop/workspace/$SCRIPT_FILE_NAME
    ```
-3. Run the container with spark-submit
+3. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
    ```bash
-   docker run -it --rm \
-       -v $WORKSPACE_LOCATION:/home/hadoop/workspace/ \
-       --name glue5_spark_submit \
-       amazon/aws-glue-libs:5.0.8 \
-       spark-submit /home/hadoop/workspace/src/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   docker run -it --rm --name glue5_spark_submit \
+       -v $WORKSPACE_LOCATION/src/spark/:/home/hadoop/workspace/ \
+       amazon/aws-glue-libs:5.0.9 \
+       spark-submit /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
    * `SCRIPT_ARGS` is the same as the script location because we're parsing the lines from the same script to perform word count
 
 ### AWS Glue Docker Testing
 
-To run AWS Glue pytest, use the following command:
+To run the AWS Glue pytest, use the following command:
 ```bash
-docker run -i --rm \
-    -v $WORKSPACE_LOCATION:/home/hadoop/workspace/ \
-    --workdir /home/hadoop/workspace \
-    --name glue5_pytest \
-    amazon/aws-glue-libs:5.0.8 \
+docker run -i --rm --name glue5_pytest \
+    -v $WORKSPACE_LOCATION/:/home/hadoop/workspace/ \
+    --workdir /home/hadoop/workspace/ \
+    amazon/aws-glue-libs:5.0.9 \
     -c "python3.11 -m pytest --disable-warnings"
 ```
 
 ### Federal Reserve Data Analytics
 
-1. Assemble the datasets needed and download the CSV formatted copies to the [temp/input](/temp/input) folder
+1. Assemble the datasets needed and download the CSV-formatted copies to the [temp/input](/temp/input) folder
    1. Download [Large Bank Consumer Credit Card Balances: Total Balances](https://fred.stlouisfed.org/series/RCCCBBALTOT)
       * `observation_date` is the date in `YYYY-MM-DD`
-      * `RCCCBBALTOT` is the ballance in billions of dollars
+      * `RCCCBBALTOT` is the balance in billions of dollars
    2. Download [Large Bank Consumer Credit Card Balances: Revolving Balances Only](https://fred.stlouisfed.org/series/RCCCBBALREV)
       * `observation_date` is the date in `YYYY-MM-DD`
-      * `RCCCBBALREV` is the ballance in billions of dollars
+      * `RCCCBBALREV` is the balance in billions of dollars
 2. Disable Windows path resolution if running via Git Bash
    ```bash
    export MSYS_NO_PATHCONV=1
@@ -70,11 +68,11 @@ docker run -i --rm \
    ```
 4. Run the container with spark-submit
    ```bash
-   docker run -it --rm \
-       -v $WORKSPACE_LOCATION:/home/hadoop/workspace/ \
-       --name glue5_spark_submit \
-       amazon/aws-glue-libs:5.0.8 \
-       spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/src/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   docker run -it --rm --name glue5_spark_submit \
+       -v $WORKSPACE_LOCATION/src/spark/:/home/hadoop/workspace/ \
+       -v $WORKSPACE_LOCATION/temp/:/home/hadoop/temp/ \
+       amazon/aws-glue-libs:5.0.9 \
+       spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 
 ### OpenLineage Integration
@@ -91,10 +89,10 @@ The following instructions is to publish OpenLineage information to a local inst
    ```
 2. Run the container with spark-submit
    ```bash
-   docker run -it --rm \
-       -v $WORKSPACE_LOCATION:/home/hadoop/workspace/ \
-       --name glue5_spark_submit \
-       amazon/aws-glue-libs:5.0.8 \
-       spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/src/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   docker run -it --rm --name glue5_spark_submit \
+       -v $WORKSPACE_LOCATION/src/spark/:/home/hadoop/workspace/ \
+       -v $WORKSPACE_LOCATION/temp/:/home/hadoop/temp/ \
+       amazon/aws-glue-libs:5.0.9 \
+       spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 3. Check the data lineage through http://localhost:3000/

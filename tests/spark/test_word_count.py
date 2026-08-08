@@ -1,6 +1,6 @@
 import pytest
 from pyspark.sql import SparkSession
-from src.word_count import word_count
+from src.spark.word_count import word_count
 
 
 @pytest.fixture(scope="session")
