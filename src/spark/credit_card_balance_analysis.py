@@ -1,8 +1,9 @@
+import argparse
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import DateType, DecimalType, StructType, StructField
 
 
-def read_credit_card_total_balance(spark_session: SparkSession) -> DataFrame:
+def read_credit_card_total_balance(spark_session: SparkSession, temp_dir: str) -> DataFrame:
     schema: StructType = StructType([
         StructField("observation_date", DateType(), False),
         StructField("RCCCBBALTOT", DecimalType(), False)
@@ -11,11 +12,11 @@ def read_credit_card_total_balance(spark_session: SparkSession) -> DataFrame:
     df: DataFrame = spark_session.read \
         .option("header", True) \
         .schema(schema) \
-        .csv("/home/hadoop/temp/input/RCCCBBALTOT.csv")
+        .csv(f"{temp_dir}/input/RCCCBBALTOT.csv")
     return df
 
 
-def read_credit_card_revolving_balance(spark_session: SparkSession) -> DataFrame:
+def read_credit_card_revolving_balance(spark_session: SparkSession, temp_dir: str) -> DataFrame:
     schema: StructType = StructType([
         StructField("observation_date", DateType(), False),
         StructField("RCCCBBALREV", DecimalType(), False)
@@ -24,7 +25,7 @@ def read_credit_card_revolving_balance(spark_session: SparkSession) -> DataFrame
     df: DataFrame = spark_session.read \
         .option("header", True) \
         .schema(schema) \
-        .csv("/home/hadoop/temp/input/RCCCBBALREV.csv")
+        .csv(f"{temp_dir}/input/RCCCBBALREV.csv")
     return df
 
 
@@ -36,27 +37,32 @@ def calculate_credit_card_payment(total_balance_df: DataFrame, revolving_balance
     return result_df
 
 
-def write_payment(payment_df: DataFrame) -> None:
+def write_payment(payment_df: DataFrame, temp_dir: str) -> None:
     payment_df.write \
         .option("header", True) \
         .mode("overwrite") \
-        .csv("/home/hadoop/temp/output/payment")
+        .csv(f"{temp_dir}/output/payment")
 
 
 def main():
+    parser: argparse.ArgumentParser = argparse.ArgumentParser()
+    parser.add_argument("--temp_dir")
+    args: argparse.Namespace = parser.parse_args()
+    temp_dir: str = args.temp_dir
+
     spark_session: SparkSession = SparkSession\
         .builder\
         .appName("FederalReserveCreditCard")\
         .getOrCreate()
 
-    total_balance_df: DataFrame = read_credit_card_total_balance(spark_session)
-    revolving_balance_df: DataFrame = read_credit_card_revolving_balance(spark_session)
+    total_balance_df: DataFrame = read_credit_card_total_balance(spark_session, temp_dir)
+    revolving_balance_df: DataFrame = read_credit_card_revolving_balance(spark_session, temp_dir)
 
     total_balance_df.show()
     revolving_balance_df.show()
 
     payment_df: DataFrame = calculate_credit_card_payment(total_balance_df, revolving_balance_df)
-    write_payment(payment_df)
+    write_payment(payment_df, temp_dir)
 
     spark_session.stop()
 

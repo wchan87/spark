@@ -22,14 +22,13 @@ To run AWS Glue locally using Docker against [word_count.py](/src/spark/word_cou
    ```
 2. Set up workspace and script locations
    ```bash
-   WORKSPACE_LOCATION=$PWD
    SCRIPT_FILE_NAME=word_count.py
    SCRIPT_ARGS=/home/hadoop/workspace/$SCRIPT_FILE_NAME
    ```
 3. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
    ```bash
    docker run -it --rm --name glue5_spark_submit \
-       -v $WORKSPACE_LOCATION/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
        amazon/aws-glue-libs:5.0.9 \
        spark-submit /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
@@ -40,7 +39,7 @@ To run AWS Glue locally using Docker against [word_count.py](/src/spark/word_cou
 To run the AWS Glue pytest, use the following command:
 ```bash
 docker run -i --rm --name glue5_pytest \
-    -v $WORKSPACE_LOCATION/:/home/hadoop/workspace/ \
+    -v $PWD/:/home/hadoop/workspace/ \
     --workdir /home/hadoop/workspace/ \
     amazon/aws-glue-libs:5.0.9 \
     -c "python3.11 -m pytest --disable-warnings"
@@ -61,16 +60,15 @@ docker run -i --rm --name glue5_pytest \
    ```
 3. Set up workspace and script locations
    ```bash
-   WORKSPACE_LOCATION=$PWD
    SCRIPT_FILE_NAME=credit_card_balance_analysis.py
    SPARK_SUBMIT_ARGS=
-   SCRIPT_ARGS=
+   SCRIPT_ARGS="--temp_dir /home/hadoop/temp"
    ```
-4. Run the container with spark-submit
+4. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
    ```bash
    docker run -it --rm --name glue5_spark_submit \
-       -v $WORKSPACE_LOCATION/src/spark/:/home/hadoop/workspace/ \
-       -v $WORKSPACE_LOCATION/temp/:/home/hadoop/temp/ \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/temp/:/home/hadoop/temp/ \
        amazon/aws-glue-libs:5.0.9 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
@@ -82,16 +80,16 @@ Refer to the following documentation
 * [OpenLineage > Integrations > Apache Spark > Configuration > Usage](https://openlineage.io/docs/integrations/spark/configuration/usage)
 * [AWS Big Data Blog > Build data lineage for data lakes using AWS Glue, Amazon Neptune, and Spline](https://aws.amazon.com/blogs/big-data/amazon-datazone-introduces-openlineage-compatible-data-lineage-visualization-in-preview/)
 
-The following instructions is to publish OpenLineage information to a local instance of 
+The following instructions are to publish OpenLineage information to a local instance of 
 1. Make the following changes to the prior [Federal Reserve Data Analytics](#federal-reserve-data-analytics)
    ```bash
    export SPARK_SUBMIT_ARGS="--conf spark.extraListeners=io.openlineage.spark.agent.OpenLineageSparkListener --conf spark.openlineage.transport.type=http --conf spark.openlineage.transport.url=http://host.docker.internal:5000 --conf spark.openlineage.namespace=spark_namespace --conf spark.openlineage.parentJobNamespace=airflow_namespace --conf spark.openlineage.parentJobName=airflow_dag.airflow_task --conf spark.openlineage.parentRunId=xxxx-xxxx-xxxx-xxxx --packages io.openlineage:openlineage-spark_2.12:1.44.0"
    ```
-2. Run the container with spark-submit
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
    ```bash
    docker run -it --rm --name glue5_spark_submit \
-       -v $WORKSPACE_LOCATION/src/spark/:/home/hadoop/workspace/ \
-       -v $WORKSPACE_LOCATION/temp/:/home/hadoop/temp/ \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/temp/:/home/hadoop/temp/ \
        amazon/aws-glue-libs:5.0.9 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
