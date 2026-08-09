@@ -19,9 +19,9 @@ START_DATE: str = "2012-07-01"
 END_DATE: str = "2026-01-01"
 
 
-def get_large_bank_consumer_credit_card_balances(spark: SparkSession, fred_id: str) -> DataFrame:
+def get_large_bank_consumer_credit_card_balances(spark: SparkSession, temp_dir: str, fred_id: str) -> DataFrame:
     url: str = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={fred_id}&cosd={START_DATE}&coed={END_DATE}"
-    temp_path: str = f"/tmp/{fred_id}.csv"
+    temp_path: str = f"{temp_dir}/{fred_id}.csv"
     urllib.request.urlretrieve(url, temp_path)
     schema: StructType = StructType([
         StructField(OBSERVATION_DATE_COL_NAME, DateType(), False),
@@ -31,9 +31,9 @@ def get_large_bank_consumer_credit_card_balances(spark: SparkSession, fred_id: s
     return df
 
 
-def calculate_credit_card_payment(spark: SparkSession) -> DataFrame:
-    total_balance_df: DataFrame = get_large_bank_consumer_credit_card_balances(spark, TOTAL_BALANCE_FRED_ID)
-    revolving_balance_df: DataFrame = get_large_bank_consumer_credit_card_balances(spark, REVOLVING_BALANCE_FRED_ID)
+def calculate_credit_card_payment(spark: SparkSession, temp_dir: str) -> DataFrame:
+    total_balance_df: DataFrame = get_large_bank_consumer_credit_card_balances(spark, temp_dir, TOTAL_BALANCE_FRED_ID)
+    revolving_balance_df: DataFrame = get_large_bank_consumer_credit_card_balances(spark, temp_dir, REVOLVING_BALANCE_FRED_ID)
     joined_df: DataFrame = total_balance_df.join(revolving_balance_df, on=[OBSERVATION_DATE_COL_NAME], how="inner")
     result_df: DataFrame = joined_df.withColumn(PAYMENT_COL_NAME, joined_df[TOTAL_BALANCE_FRED_ID] - joined_df[REVOLVING_BALANCE_FRED_ID])
     result_df = result_df.withColumnRenamed(TOTAL_BALANCE_FRED_ID, TOTAL_BALANCE_COL_NAME)

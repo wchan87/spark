@@ -41,7 +41,7 @@ Enable `-u 0` to switch user to `root` to enable `pip install` to work (which is
 docker run -it --rm --name spark -u 0 \
     -v $PWD/:/opt/spark/work-dir/ \
     spark:3.5.4-scala2.12-java17-python3-ubuntu \
-    bash -c "python3 -m pip install pytest \"pyspark==3.5.4\" py4j && python3 -m pytest --disable-warnings"
+    bash -c "python3 -m pip install pytest \"pyspark==3.5.4\" \"pandas==2.3.3\" py4j && python3 -m pytest --disable-warnings"
 ```
 * **Note**: Be careful with `-u 0` on Windows when mounting a sensitive folder due to [this](https://docs.docker.com/desktop/setup/install/windows-permission-requirements/#privileged-helper)
    > The privileged helper `com.docker.service` is a Windows service which runs in the background with `SYSTEM` privileges.

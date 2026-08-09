@@ -29,4 +29,4 @@ def test_main(
     main()
 
     # ASSERT
-    mock_calculate_credit_card_payment.assert_called_once_with(spark)
+    mock_calculate_credit_card_payment.assert_called_once_with(spark, "/tmp")
