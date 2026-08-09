@@ -1,20 +1,9 @@
 from pathlib import Path
 from pyspark.sql import SparkSession
-import pytest
 from src.spark.word_count import word_count
 
 
-@pytest.fixture(scope="session")
-def spark():
-    spark = SparkSession.builder \
-        .master("local[1]") \
-        .appName("pytest-pyspark-local-testing") \
-        .getOrCreate()
-    yield spark
-    spark.stop()
-
-
-def test_word_count(spark, tmp_path: Path):
+def test_word_count(spark: SparkSession, tmp_path: Path):
     # Create a temporary input file
     d = tmp_path / "data"
     d.mkdir()
