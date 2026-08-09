@@ -12,10 +12,7 @@ def word_count(spark_session: SparkSession, file_path: str):
 
 
 def main():
-    spark_session: SparkSession = SparkSession\
-        .builder\
-        .appName("PythonWordCount")\
-        .getOrCreate()
+    spark_session: SparkSession = SparkSession.builder.appName("PythonWordCount").getOrCreate()
 
     output = word_count(spark_session, sys.argv[1])
     for (word, count) in output:

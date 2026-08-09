@@ -47,6 +47,7 @@ docker run -i --rm --name glue5_pytest \
 
 ### Federal Reserve Data Analytics
 
+The following instructions are for running PySpark application defined by [src/spark/credit_card_balance_analysis.py](/src/spark/credit_card_balance_analysis.py):
 1. Assemble the datasets needed and download the CSV-formatted copies to the [temp/input](/temp/input) folder
    1. Download [Large Bank Consumer Credit Card Balances: Total Balances](https://fred.stlouisfed.org/series/RCCCBBALTOT)
       * `observation_date` is the date in `YYYY-MM-DD`
@@ -72,6 +73,27 @@ docker run -i --rm --name glue5_pytest \
        amazon/aws-glue-libs:5.0.9 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
+
+The following instructions are for running PySpark application defined by [src/spark/credit_card_balance_analysis_lib.py](/src/spark/credit_card_balance_analysis_lib.py):
+1. Disable Windows path resolution if running via Git Bash
+   ```bash
+   export MSYS_NO_PATHCONV=1
+   ```
+2. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_analysis_lib.py
+   SPARK_SUBMIT_ARGS=
+   SCRIPT_ARGS=
+   ```
+3. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name glue5_spark_submit \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/src/libraries/:/home/hadoop/libraries/ \
+       amazon/aws-glue-libs:5.0.9 \
+       -c "export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/ && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+   ```
+   * [src/libraries/](/src/libraries/) and `export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/` is mounted to make it accessible as if a zip file with the same content is passed to `--extra-py-files`
 
 ### OpenLineage Integration
 
