@@ -3,3 +3,5 @@
 __pycache__/
 !temp/.gitkeep
 temp/
+.coverage
+htmlcov/

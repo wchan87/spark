@@ -45,6 +45,15 @@ docker run -i --rm --name glue5_pytest \
     -c "python3.11 -m pytest --disable-warnings"
 ```
 
+To run [coverage](https://coverage.readthedocs.io/en/latest/) as well
+```bash
+docker run -i --rm --name glue5_pytest \
+    -v $PWD/:/home/hadoop/workspace/ \
+    --workdir /home/hadoop/workspace/ \
+    amazon/aws-glue-libs:5.0.9 \
+    -c "python3.11 -m coverage run -m pytest --disable-warnings && python3.11 -m coverage html"
+```
+
 ### Federal Reserve Data Analytics
 
 The following instructions are for running PySpark application defined by [src/spark/credit_card_balance_analysis.py](/src/spark/credit_card_balance_analysis.py):
