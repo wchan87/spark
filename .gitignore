@@ -5,3 +5,4 @@ __pycache__/
 temp/
 .coverage
 htmlcov/
+coverage.xml
