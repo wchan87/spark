@@ -25,9 +25,10 @@ def get_large_bank_consumer_credit_card_balances(spark: SparkSession, temp_dir: 
     urllib.request.urlretrieve(url, temp_path)
     schema: StructType = StructType([
         StructField(OBSERVATION_DATE_COL_NAME, DateType(), False),
-        StructField(fred_id, DecimalType(), False)
+        StructField(fred_id, DecimalType(6, 0), False) # supports 999,999
     ])
     df: DataFrame = spark.read.csv(temp_path, schema=schema, header=True)
+    df = df.withColumn(fred_id, (df[fred_id] * 1_000_000_000).cast(DecimalType(15, 0))) # supports 999,999,999,999,999
     return df
 
 
@@ -35,7 +36,7 @@ def calculate_credit_card_payment(spark: SparkSession, temp_dir: str) -> DataFra
     total_balance_df: DataFrame = get_large_bank_consumer_credit_card_balances(spark, temp_dir, TOTAL_BALANCE_FRED_ID)
     revolving_balance_df: DataFrame = get_large_bank_consumer_credit_card_balances(spark, temp_dir, REVOLVING_BALANCE_FRED_ID)
     joined_df: DataFrame = total_balance_df.join(revolving_balance_df, on=[OBSERVATION_DATE_COL_NAME], how="inner")
-    result_df: DataFrame = joined_df.withColumn(PAYMENT_COL_NAME, joined_df[TOTAL_BALANCE_FRED_ID] - joined_df[REVOLVING_BALANCE_FRED_ID])
+    result_df: DataFrame = joined_df.withColumn(PAYMENT_COL_NAME, (joined_df[TOTAL_BALANCE_FRED_ID] - joined_df[REVOLVING_BALANCE_FRED_ID]).cast(DecimalType(15, 0)))
     result_df = result_df.withColumnRenamed(TOTAL_BALANCE_FRED_ID, TOTAL_BALANCE_COL_NAME)
     result_df = result_df.withColumnRenamed(REVOLVING_BALANCE_FRED_ID, REVOLVING_BALANCE_COL_NAME)
     return result_df

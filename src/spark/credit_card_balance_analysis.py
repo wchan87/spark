@@ -14,16 +14,17 @@ REVOLVING_BALANCE_FRED_ID: str = "RCCCBBALREV"
 def read_credit_card_files(spark_session: SparkSession, fred_id: str, temp_dir: str) -> DataFrame:
     schema: StructType = StructType([
         StructField(OBSERVATION_DATE_COL_NAME, DateType(), False),
-        StructField(fred_id, DecimalType(), False)
+        StructField(fred_id, DecimalType(6, 0), False) # supports 999,999
     ])
 
     df: DataFrame = spark_session.read.option("header", True).schema(schema).csv(f"{temp_dir}/input/{fred_id}.csv")
+    df = df.withColumn(fred_id, (df[fred_id] * 1_000_000_000).cast(DecimalType(15, 0))) # supports 999,999,999,999,999
     return df
 
 
 def calculate_credit_card_payment(total_balance_df: DataFrame, revolving_balance_df: DataFrame) -> DataFrame:
     joined_df: DataFrame = total_balance_df.join(revolving_balance_df, on=[OBSERVATION_DATE_COL_NAME], how="inner")
-    result_df: DataFrame = joined_df.withColumn(PAYMENT_COL_NAME, joined_df[TOTAL_BALANCE_FRED_ID] - joined_df[REVOLVING_BALANCE_FRED_ID])
+    result_df: DataFrame = joined_df.withColumn(PAYMENT_COL_NAME, (joined_df[TOTAL_BALANCE_FRED_ID] - joined_df[REVOLVING_BALANCE_FRED_ID]).cast(DecimalType(15, 0)))
     result_df = result_df.withColumnRenamed(TOTAL_BALANCE_FRED_ID, TOTAL_BALANCE_COL_NAME)
     result_df = result_df.withColumnRenamed(REVOLVING_BALANCE_FRED_ID, REVOLVING_BALANCE_COL_NAME)
     return result_df
@@ -44,7 +45,7 @@ def main():
     revolving_balance_df.show()
 
     payment_df: DataFrame = calculate_credit_card_payment(total_balance_df, revolving_balance_df)
-    payment_df.write.option("header", True).mode("overwrite").csv(f"{temp_dir}/output/payment")
+    payment_df.write.option("header", True).mode("overwrite").parquet(f"{temp_dir}/output/payment")
 
     spark_session.stop()
 

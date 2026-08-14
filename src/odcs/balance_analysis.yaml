@@ -1,0 +1,31 @@
+# $schema: https://raw.githubusercontent.com/bitol-io/open-data-contract-standard/refs/heads/main/schema/odcs-json-schema-latest.json
+apiVersion: v3.1.0
+kind: DataContract
+id: 805910e0-fb88-4c45-b445-e6f4f939397f
+name: balance_analysis
+version: 0.0.1
+status: active
+schema:
+  - name: dataframe
+    logicalType: object
+    physicalType: parquet
+    properties:
+      - name: observation_date
+        logicalType: date
+        physicalType: DATE
+      - name: total_balance
+        logicalType: number
+        physicalType: DECIMAL(15, 0)
+        authoritativeDefinitions:
+          - url: https://fred.stlouisfed.org/series/RCCCBBALTOT
+            type: businessDefinition
+      - name: revolving_balance
+        logicalType: number
+        physicalType: DECIMAL(15, 0)
+        authoritativeDefinitions:
+          - url: https://fred.stlouisfed.org/series/RCCCBBALREV
+            type: businessDefinition
+      - name: payment
+        logicalType: number
+        physicalType: DECIMAL(15, 0)
+        description: Calculated via `total_balance - revolving_balance`
