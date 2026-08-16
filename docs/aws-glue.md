@@ -104,6 +104,33 @@ The following instructions are for running PySpark application defined by [src/s
    ```
    * [src/libraries/](/src/libraries/) and `export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/` is mounted to make it accessible as if a zip file with the same content is passed to `--extra-py-files`
 
+### PUMS Parsing
+
+The following instructions are for running PySpark application defined by [src/spark/parse_pums.py](/src/spark/parse_pums.py) to parse [PUMS Census 2000](/docs/pums.md#pums-census-2000) files:
+1. Download relevant files from [here](https://www2.census.gov/census_2000/datasets/PUMS/OnePercent/)
+2. Disable Windows path resolution if running via Git Bash
+   ```bash
+   export MSYS_NO_PATHCONV=1
+   ```
+3. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=parse_pums.py
+   SPARK_SUBMIT_ARGS=
+   SCRIPT_ARGS="--temp_dir /home/hadoop/temp --odcs_dir /home/hadoop/config --pums_file input/pums_36.dat"
+   ```
+4. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name glue5_spark_submit \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/src/odcs/:/home/hadoop/config/ \
+       -v $PWD/temp/:/home/hadoop/temp/ \
+       amazon/aws-glue-libs:5.0.9 \
+       -c "python3.11 -m pip install \"open-data-contract-standard==3.1.2\" && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+   ```
+
+**Note:** Apache Spark doesn't respect `CHAR(X)` or `VARCHAR(X)` and resolves to `StringType`
+> 26/08/16 21:41:30 WARN CharVarcharUtils: The Spark cast operator does not support char/varchar type and simply treats them as string type. Please use string type directly to avoid confusion. Otherwise, you can set spark.sql.legacy.charVarcharAsString to true, so that Spark treat them as string type as same as Spark 3.0 and earlier
+
 ### OpenLineage Integration
 
 Refer to the following documentation

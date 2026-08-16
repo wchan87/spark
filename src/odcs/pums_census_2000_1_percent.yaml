@@ -67,7 +67,7 @@ schema:
             value: 13
           - property: field_end
             value: 13
-      - name: FILLER
+      - name: FILLER_1
         description: Filler
         logicalType: string
         physicalType: CHAR(5)
@@ -85,7 +85,7 @@ schema:
             value: 19
           - property: field_end
             value: 23
-      - name: FILLER
+      - name: FILLER_2
         description: Filler
         logicalType: string
         physicalType: CHAR(4)
@@ -94,7 +94,7 @@ schema:
             value: 24
           - property: field_end
             value: 27
-      - name: FILLER
+      - name: FILLER_3
         description: Filler
         logicalType: string
         physicalType: CHAR(4)
@@ -121,7 +121,7 @@ schema:
             value: 36
           - property: field_end
             value: 39
-      - name: FILLER
+      - name: FILLER_4
         description: Filler
         logicalType: string
         physicalType: CHAR(2)
@@ -139,7 +139,7 @@ schema:
             value: 42
           - property: field_end
             value: 43
-      - name: FILLER
+      - name: FILLER_5
         description: Filler
         logicalType: string
         physicalType: CHAR(14)
@@ -148,7 +148,7 @@ schema:
             value: 44
           - property: field_end
             value: 57
-      - name: FILLER
+      - name: FILLER_6
         description: Filler
         logicalType: string
         physicalType: CHAR(14)
@@ -158,45 +158,45 @@ schema:
           - property: field_end
             value: 71
       - name: TOTPUMA1
-        description: Total Area of Super-PUMA
-        logicalType: string
-        physicalType: CHAR(14)
+        description: Total Area of Super-PUMA (0..99999999999999 / Square meters)
+        logicalType: number
+        physicalType: LONG
         customProperties:
           - property: field_start
             value: 72
           - property: field_end
             value: 85
       - name: LNDPUMA1
-        description: Land Area of Super-PUMA
-        logicalType: string
-        physicalType: CHAR(14)
+        description: Land Area of Super-PUMA (0..99999999999999 / Square meters)
+        logicalType: number
+        physicalType: LONG
         customProperties:
           - property: field_start
             value: 86
           - property: field_end
             value: 99
       - name: SUBSAMPL
-        description: Subsample number
-        logicalType: string
-        physicalType: CHAR(2)
+        description: Subsample number (00..99)
+        logicalType: number
+        physicalType: INTEGER
         customProperties:
           - property: field_start
             value: 100
           - property: field_end
             value: 101
       - name: HWEIGHT
-        description: Housing unit weight
-        logicalType: string
-        physicalType: CHAR(4)
+        description: Housing unit weight (0000..1975)
+        logicalType: number
+        physicalType: INTEGER
         customProperties:
           - property: field_start
             value: 102
           - property: field_end
             value: 105
       - name: PERSONS
-        description: Number of person records following this housing record
-        logicalType: string
-        physicalType: CHAR(2)
+        description: Number of person records following this housing record (00 / Vacant unit, 01 / Householder living alone or any person in group quarters,  02..97 / Number of persons in household)
+        logicalType: number
+        physicalType: INTEGER
         customProperties:
           - property: field_start
             value: 106
@@ -1030,6 +1030,9 @@ schema:
             value: 259
           - property: field_end
             value: 266
+    customProperties:
+      - property: regex
+        value: ^H
   - name: person_record
     logicalType: object
     physicalType: fixed_width_record
@@ -1568,7 +1571,7 @@ schema:
             value: 88
           - property: field_end
             value: 88
-      - name: FILLER
+      - name: FILLER_1
         description: Filler
         logicalType: string
         physicalType: CHAR(5)
@@ -1586,7 +1589,7 @@ schema:
             value: 94
           - property: field_end
             value: 98
-      - name: FILLER
+      - name: FILLER_2
         description: Filler
         logicalType: string
         physicalType: CHAR(2)
@@ -1604,7 +1607,7 @@ schema:
             value: 101
           - property: field_end
             value: 102
-      - name: FILLER
+      - name: FILLER_3
         description: Filler
         logicalType: string
         physicalType: CHAR(4)
@@ -1622,7 +1625,7 @@ schema:
             value: 107
           - property: field_end
             value: 110
-      - name: FILLER
+      - name: FILLER_4
         description: Filler
         logicalType: string
         physicalType: CHAR(4)
@@ -1991,7 +1994,7 @@ schema:
             value: 160
           - property: field_end
             value: 160
-      - name: FILLER
+      - name: FILLER_5
         description: Filler
         logicalType: string
         physicalType: CHAR(5)
@@ -2009,7 +2012,7 @@ schema:
             value: 166
           - property: field_end
             value: 170
-      - name: FILLER
+      - name: FILLER_6
         description: Filler
         logicalType: string
         physicalType: CHAR(2)
@@ -2027,7 +2030,7 @@ schema:
             value: 173
           - property: field_end
             value: 174
-      - name: FILLER
+      - name: FILLER_7
         description: Filler
         logicalType: string
         physicalType: CHAR(4)
@@ -2045,7 +2048,7 @@ schema:
             value: 179
           - property: field_end
             value: 182
-      - name: FILLER
+      - name: FILLER_8
         description: Filler
         logicalType: string
         physicalType: CHAR(4)
@@ -2504,7 +2507,7 @@ schema:
             value: 312
           - property: field_end
             value: 314
-      - name: FILLER
+      - name: FILLER_9
         description: Filler
         logicalType: string
         physicalType: CHAR(2)
@@ -2513,3 +2516,6 @@ schema:
             value: 315
           - property: field_end
             value: 316
+    customProperties:
+      - property: regex
+        value: ^P
