@@ -42,7 +42,7 @@ docker run -i --rm --name glue5_pytest \
     -v $PWD/:/home/hadoop/workspace/ \
     --workdir /home/hadoop/workspace/ \
     amazon/aws-glue-libs:5.0.9 \
-    -c "python3.11 -m pytest --disable-warnings"
+    -c "python3.11 -m pip install \"open-data-contract-standard==3.1.2\" && python3.11 -m pytest --disable-warnings"
 ```
 
 To run [coverage](https://coverage.readthedocs.io/en/latest/) as well
@@ -51,7 +51,7 @@ docker run -i --rm --name glue5_pytest \
     -v $PWD/:/home/hadoop/workspace/ \
     --workdir /home/hadoop/workspace/ \
     amazon/aws-glue-libs:5.0.9 \
-    -c "python3.11 -m coverage run -m pytest --disable-warnings && python3.11 -m coverage xml && python3.11 -m coverage html"
+    -c "python3.11 -m pip install \"open-data-contract-standard==3.1.2\" && python3.11 -m coverage run -m pytest --disable-warnings && python3.11 -m coverage xml && python3.11 -m coverage html"
 ```
 
 ### Federal Reserve Data Analytics

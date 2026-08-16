@@ -14,6 +14,7 @@ from src.spark.credit_card_balance_analysis import (
     PAYMENT_COL_NAME
 )
 
+
 # scope set to "module" as it causes "java.lang.IllegalStateException: No active or default Spark session found" if scope is "session"
 @pytest.fixture(scope="module")
 def spark():

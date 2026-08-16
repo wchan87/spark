@@ -4,8 +4,7 @@ from pyspark.sql import SparkSession
 import sys
 
 
-# Intercept the import of fred before it happens in src.spark.credit_card_balance_analysis_lib
-sys.modules["fred"] = MagicMock()
+# Intercept the import of fred.utility before it happens in src.spark.credit_card_balance_analysis_lib
 sys.modules["fred.utility"] = MagicMock()
 from src.spark.credit_card_balance_analysis_lib import (
     main
