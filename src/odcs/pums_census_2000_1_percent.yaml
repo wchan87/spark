@@ -1,0 +1,2515 @@
+# $schema: https://raw.githubusercontent.com/bitol-io/open-data-contract-standard/refs/heads/main/schema/odcs-json-schema-latest.json
+apiVersion: v3.1.0
+kind: DataContract
+id: 4d1bc484-cd4a-426b-99e0-dd701e0b80a3
+name: pums_census_2000_1_percent
+version: 0.0.1
+status: active
+schema:
+  - name: housing_unit_record
+    logicalType: object
+    physicalType: fixed_width_record
+    properties:
+      - name: RECTYPE
+        description: Record Type
+        logicalType: string
+        physicalType: CHAR(1)
+        examples:
+          - H
+        required: true
+        customProperties:
+          - property: field_start
+            value: 1
+          - property: field_end
+            value: 1
+      - name: SERIALNO
+        description: Housing/Group Quarters (GQ) Unit Serial Number
+        logicalType: string
+        physicalType: CHAR(7)
+        customProperties:
+          - property: field_start
+            value: 2
+          - property: field_end
+            value: 8
+      - name: SAMPLE
+        description: Sample Identifier
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 9
+          - property: field_end
+            value: 9
+      - name: STATE
+        description: State Code
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 10
+          - property: field_end
+            value: 11
+      - name: REGION
+        description: Region Code
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 12
+          - property: field_end
+            value: 12
+      - name: DIVISION
+        description: Division Code
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 13
+          - property: field_end
+            value: 13
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 14
+          - property: field_end
+            value: 18
+      - name: PUMA1
+        description: Super-Public Use Microdata Area Code (Super-PUMA)
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 19
+          - property: field_end
+            value: 23
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 24
+          - property: field_end
+            value: 27
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 28
+          - property: field_end
+            value: 31
+      - name: MSACMSA1
+        description: "Metropolitan Area: MSA/CMSA for Super-PUMA"
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 32
+          - property: field_end
+            value: 35
+      - name: MSAPMSA1
+        description: "Metropolitan Area: MSA/PMSA for Super-PUMA"
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 36
+          - property: field_end
+            value: 39
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 40
+          - property: field_end
+            value: 41
+      - name: AREATYP1
+        description: "Metropolitan Area: Super-PUMA Relationship to MA (see page 3-2)"
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 42
+          - property: field_end
+            value: 43
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(14)
+        customProperties:
+          - property: field_start
+            value: 44
+          - property: field_end
+            value: 57
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(14)
+        customProperties:
+          - property: field_start
+            value: 58
+          - property: field_end
+            value: 71
+      - name: TOTPUMA1
+        description: Total Area of Super-PUMA
+        logicalType: string
+        physicalType: CHAR(14)
+        customProperties:
+          - property: field_start
+            value: 72
+          - property: field_end
+            value: 85
+      - name: LNDPUMA1
+        description: Land Area of Super-PUMA
+        logicalType: string
+        physicalType: CHAR(14)
+        customProperties:
+          - property: field_start
+            value: 86
+          - property: field_end
+            value: 99
+      - name: SUBSAMPL
+        description: Subsample number
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 100
+          - property: field_end
+            value: 101
+      - name: HWEIGHT
+        description: Housing unit weight
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 102
+          - property: field_end
+            value: 105
+      - name: PERSONS
+        description: Number of person records following this housing record
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 106
+          - property: field_end
+            value: 107
+      - name: UNITTYPE
+        description: Type of unit
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 108
+          - property: field_end
+            value: 108
+      - name: HSUB
+        description: Substitution Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 109
+          - property: field_end
+            value: 109
+      - name: HAUG
+        description: Augmentation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 110
+          - property: field_end
+            value: 110
+      - name: VACSTAT
+        description: Vacancy Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 111
+          - property: field_end
+            value: 111
+      - name: VACSTATA
+        description: Vacancy Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 112
+          - property: field_end
+            value: 112
+      - name: TENURE
+        description: Home Ownership
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 113
+          - property: field_end
+            value: 113
+      - name: TENUREA
+        description: Home Ownership Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 114
+          - property: field_end
+            value: 114
+      - name: BLDGSZ
+        description: Size of Building
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 115
+          - property: field_end
+            value: 116
+      - name: BLDGSZA
+        description: Size of Building Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 117
+          - property: field_end
+            value: 117
+      - name: YRBUILT
+        description: Year Building Built
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 118
+          - property: field_end
+            value: 118
+      - name: YRBUILTA
+        description: Year Building Built Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 119
+          - property: field_end
+            value: 119
+      - name: YRMOVED
+        description: Year Moved In
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 120
+          - property: field_end
+            value: 120
+      - name: YRMOVEDA
+        description: Year Moved In Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 121
+          - property: field_end
+            value: 121
+      - name: ROOMS
+        description: Number of Rooms
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 122
+          - property: field_end
+            value: 122
+      - name: ROOMSA
+        description: Number of Rooms Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 123
+          - property: field_end
+            value: 123
+      - name: BEDRMS
+        description: Number of Bedrooms
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 124
+          - property: field_end
+            value: 124
+      - name: BEDRMSA
+        description: Number of Bedrooms Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 125
+          - property: field_end
+            value: 125
+      - name: CPLUMB
+        description: Complete Plumbing Facilities
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 126
+          - property: field_end
+            value: 126
+      - name: CPLUMBA
+        description: Complete Plumbing Facilities Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 127
+          - property: field_end
+            value: 127
+      - name: CKITCH
+        description: Complete Kitchen Facilities
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 128
+          - property: field_end
+            value: 128
+      - name: CKITCHA
+        description: Complete Kitchen Facilities Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 129
+          - property: field_end
+            value: 129
+      - name: PHONE
+        description: Telephone Availability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 130
+          - property: field_end
+            value: 130
+      - name: PHONEA
+        description: Telephone Availability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 131
+          - property: field_end
+            value: 131
+      - name: FUEL
+        description: Heating Fuel
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 132
+          - property: field_end
+            value: 132
+      - name: FUELA
+        description: Heating Fuel Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 133
+          - property: field_end
+            value: 133
+      - name: VEHICL
+        description: Number of Vehicles Available
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 134
+          - property: field_end
+            value: 134
+      - name: VEHICLA
+        description: Number of Vehicles Available Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 135
+          - property: field_end
+            value: 135
+      - name: BUSINES
+        description: Commercial Business on Property
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 136
+          - property: field_end
+            value: 136
+      - name: BUSINESA
+        description: Commercial Business on Property Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 137
+          - property: field_end
+            value: 137
+      - name: ACRES
+        description: Acreage
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 138
+          - property: field_end
+            value: 138
+      - name: ACRESA
+        description: Acreage Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 139
+          - property: field_end
+            value: 139
+      - name: AGSALES
+        description: Sales of Agricultural Products in 1999
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 140
+          - property: field_end
+            value: 140
+      - name: AGSALESA
+        description: Sales of Agricultural Products in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 141
+          - property: field_end
+            value: 141
+      - name: ELEC
+        description: Cost of Electricity (annual)
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 142
+          - property: field_end
+            value: 145
+      - name: ELECA
+        description: Cost of Electricity (annual) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 146
+          - property: field_end
+            value: 146
+      - name: GAS
+        description: Cost of Gas (annual)
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 147
+          - property: field_end
+            value: 150
+      - name: GASA
+        description: Cost of Gas (annual) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 151
+          - property: field_end
+            value: 151
+      - name: WATER
+        description: Cost of Water and Sewer (annual)
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 152
+          - property: field_end
+            value: 155
+      - name: WATERA
+        description: Cost of Water and Sewer (annual) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 156
+          - property: field_end
+            value: 156
+      - name: OIL
+        description: Cost of Oil, Kerosene, or Wood (annual)
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 157
+          - property: field_end
+            value: 160
+      - name: OILA
+        description: Cost of Oil, Kerosene, or Wood (annual) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 161
+          - property: field_end
+            value: 161
+      - name: RENT
+        description: Monthly Rent
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 162
+          - property: field_end
+            value: 165
+      - name: RENTA
+        description: Monthly Rent Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 166
+          - property: field_end
+            value: 166
+      - name: MEALS
+        description: Meals Included in Rent
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 167
+          - property: field_end
+            value: 167
+      - name: MEALSA
+        description: Meals Included in Rent Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 168
+          - property: field_end
+            value: 168
+      - name: MORTG1
+        description: Mortgage Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 169
+          - property: field_end
+            value: 169
+      - name: MORTG1A
+        description: Mortgage Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 170
+          - property: field_end
+            value: 170
+      - name: MRT1AMT
+        description: Mortgage Payment (monthly amount)
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 171
+          - property: field_end
+            value: 175
+      - name: MRT1AMTA
+        description: Mortgage Payment (monthly amount) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 176
+          - property: field_end
+            value: 176
+      - name: MORTG2
+        description: Second Mortgage Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 177
+          - property: field_end
+            value: 177
+      - name: MORTG2A
+        description: Second Mortgage Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 178
+          - property: field_end
+            value: 178
+      - name: MRT2AMT
+        description: Second Mortgage Payment (monthly amount)
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 179
+          - property: field_end
+            value: 183
+      - name: MRT2AMTA
+        description: Second Mortgage Payment (monthly amount) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 184
+          - property: field_end
+            value: 184
+      - name: TAXINCL
+        description: Property Tax Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 185
+          - property: field_end
+            value: 185
+      - name: TAXINCLA
+        description: Property Tax Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 186
+          - property: field_end
+            value: 186
+      - name: TAXAMT
+        description: Property Tax Amount (annual)
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 187
+          - property: field_end
+            value: 188
+      - name: TAXAMTA
+        description: Property Tax Amount (annual) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 189
+          - property: field_end
+            value: 189
+      - name: INSINCL
+        description: Property Insurance Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 190
+          - property: field_end
+            value: 190
+      - name: INSINCLA
+        description: Property Insurance Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 191
+          - property: field_end
+            value: 191
+      - name: INSAMT
+        description: Property Insurance Amount (annual)
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 192
+          - property: field_end
+            value: 195
+      - name: INSAMTA
+        description: Property Insurance Amount (annual) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 196
+          - property: field_end
+            value: 196
+      - name: CONDFEE
+        description: Condominium Fee (monthly)
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 197
+          - property: field_end
+            value: 200
+      - name: CONDFEEA
+        description: Condominium Fee (monthly) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 201
+          - property: field_end
+            value: 201
+      - name: VALUE
+        description: Property Value
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 202
+          - property: field_end
+            value: 203
+      - name: VALUEA
+        description: Property Value Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 204
+          - property: field_end
+            value: 204
+      - name: MHLOAN
+        description: Mobile Home Loan Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 205
+          - property: field_end
+            value: 205
+      - name: MHLOANA
+        description: Mobile Home Loan Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 206
+          - property: field_end
+            value: 206
+      - name: MHCOST
+        description: Mobile Home Costs
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 207
+          - property: field_end
+            value: 211
+      - name: MHCOSTA
+        description: Mobile Home Costs Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 212
+          - property: field_end
+            value: 212
+      - name: HHT
+        description: Household/Family Type
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 213
+          - property: field_end
+            value: 213
+      - name: P65
+        description: Number of people 65 years and over in household
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 214
+          - property: field_end
+            value: 215
+      - name: P18
+        description: Number of people under 18 years in household
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 216
+          - property: field_end
+            value: 217
+      - name: NPF
+        description: Number of people in family
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 218
+          - property: field_end
+            value: 219
+      - name: NOC
+        description: Number of own children under 18 years in household
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 220
+          - property: field_end
+            value: 221
+      - name: NRC
+        description: Number of related children under 18 years in household
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 222
+          - property: field_end
+            value: 223
+      - name: PSF
+        description: Presence of Subfamily in Household
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 224
+          - property: field_end
+            value: 224
+      - name: PAOC
+        description: Presence and Age of Own Children under 18 years
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 225
+          - property: field_end
+            value: 225
+      - name: PARC
+        description: Presence and Age of Related Children under 18 years
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 226
+          - property: field_end
+            value: 226
+      - name: SVAL
+        description: Specified Value Indicator
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 227
+          - property: field_end
+            value: 227
+      - name: SMOC
+        description: Selected Monthly Owner Costs
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 228
+          - property: field_end
+            value: 232
+      - name: SMOCAPI
+        description: Selected Monthly Owner Costs as a Percentage of Household Income
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 233
+          - property: field_end
+            value: 235
+      - name: SRNT
+        description: Specified Rent Indicator
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 236
+          - property: field_end
+            value: 236
+      - name: GRENT
+        description: Gross Rent
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 237
+          - property: field_end
+            value: 240
+      - name: GRAPI
+        description: Gross Rent as a Percentage of Household Income
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 241
+          - property: field_end
+            value: 243
+      - name: FNF
+        description: Farm/Nonfarm Recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 244
+          - property: field_end
+            value: 244
+      - name: HHL
+        description: Household Language
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 245
+          - property: field_end
+            value: 245
+      - name: LNGI
+        description: Linguistic Isolation
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 246
+          - property: field_end
+            value: 246
+      - name: WIF
+        description: Number of workers in family
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 247
+          - property: field_end
+            value: 247
+      - name: EMPSTAT
+        description: Family Type and Employment Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 248
+          - property: field_end
+            value: 248
+      - name: WORKEXP
+        description: Family Type and Work Experience of Householder
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 249
+          - property: field_end
+            value: 250
+      - name: HINC
+        description: Household Total Income in 1999
+        logicalType: string
+        physicalType: CHAR(8)
+        customProperties:
+          - property: field_start
+            value: 251
+          - property: field_end
+            value: 258
+      - name: FINC
+        description: Family Total Income in 1999
+        logicalType: string
+        physicalType: CHAR(8)
+        customProperties:
+          - property: field_start
+            value: 259
+          - property: field_end
+            value: 266
+  - name: person_record
+    logicalType: object
+    physicalType: fixed_width_record
+    properties:
+      - name: RECTYPE
+        description: Record Type
+        logicalType: string
+        physicalType: CHAR(1)
+        examples:
+          - P
+        required: true
+        customProperties:
+          - property: field_start
+            value: 1
+          - property: field_end
+            value: 1
+      - name: SERIALNO
+        description: Housing/Group Quarters (GQ) Unit Serial Number
+        logicalType: string
+        physicalType: CHAR(7)
+        customProperties:
+          - property: field_start
+            value: 2
+          - property: field_end
+            value: 8
+      - name: PNUM
+        description: Person Sequence Number
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 9
+          - property: field_end
+            value: 10
+      - name: PAUG
+        description: Augmented Person Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 11
+          - property: field_end
+            value: 11
+      - name: DDP
+        description: Data-defined Person Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 12
+          - property: field_end
+            value: 12
+      - name: PWEIGHT
+        description: Person Weight
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 13
+          - property: field_end
+            value: 16
+      - name: RELATE
+        description: Relationship
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 17
+          - property: field_end
+            value: 18
+      - name: RELATEA
+        description: Relationship Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 19
+          - property: field_end
+            value: 19
+      - name: OC
+        description: Own Child Indicator
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 20
+          - property: field_end
+            value: 20
+      - name: RC
+        description: Related Child Indicator
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 21
+          - property: field_end
+            value: 21
+      - name: PAOCF
+        description: Presence and Age of Own Children, Females
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 22
+          - property: field_end
+            value: 22
+      - name: SEX
+        description: Sex
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 23
+          - property: field_end
+            value: 23
+      - name: SEXA
+        description: Sex Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 24
+          - property: field_end
+            value: 24
+      - name: AGE
+        description: Age
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 25
+          - property: field_end
+            value: 26
+      - name: AGEA
+        description: Age Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 27
+          - property: field_end
+            value: 27
+      - name: HISPAN
+        description: Hispanic or Latino Origin
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 28
+          - property: field_end
+            value: 29
+      - name: HISPANA
+        description: Hispanic or Latino Origin Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 30
+          - property: field_end
+            value: 30
+      - name: NUMRACE
+        description: Number of Major Race Groups Marked
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 31
+          - property: field_end
+            value: 31
+      - name: WHITE
+        description: White recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 32
+          - property: field_end
+            value: 32
+      - name: BLACK
+        description: Black or African American recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 33
+          - property: field_end
+            value: 33
+      - name: AIAN
+        description: American Indian and Alaska Native recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 34
+          - property: field_end
+            value: 34
+      - name: ASIAN
+        description: Asian recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 35
+          - property: field_end
+            value: 35
+      - name: NHPI
+        description: Native Hawaiian and Other Pacific Islander recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 36
+          - property: field_end
+            value: 36
+      - name: OTHER
+        description: Some other race recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 37
+          - property: field_end
+            value: 37
+      - name: RACE1
+        description: Race Recode 1
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 38
+          - property: field_end
+            value: 38
+      - name: RACE2
+        description: Race Recode 2
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 39
+          - property: field_end
+            value: 40
+      - name: RACE3
+        description: Race Recode 3
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 41
+          - property: field_end
+            value: 42
+      - name: RACEA
+        description: Race Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 43
+          - property: field_end
+            value: 43
+      - name: MARSTAT
+        description: Marital Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 44
+          - property: field_end
+            value: 44
+      - name: MARSTATA
+        description: Marital Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 45
+          - property: field_end
+            value: 45
+      - name: MSP
+        description: Married, Spouse Present Recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 46
+          - property: field_end
+            value: 46
+      - name: SFN
+        description: Subfamily Number for this person
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 47
+          - property: field_end
+            value: 47
+      - name: SFREL
+        description: Subfamily Relationship
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 48
+          - property: field_end
+            value: 48
+      - name: ENROLL
+        description: School Enrollment; Attended since February 1, 2000
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 49
+          - property: field_end
+            value: 49
+      - name: ENROLLA
+        description: "School Enrollment: Attended since February 1, 2000 Allocation Flag"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 50
+          - property: field_end
+            value: 50
+      - name: GRADE
+        description: "School Enrollment: Grade Level Attending"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 51
+          - property: field_end
+            value: 51
+      - name: GRADEA
+        description: "School Enrollment: Grade Level Attending Allocation Flag"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 52
+          - property: field_end
+            value: 52
+      - name: EDUC
+        description: Educational Attainment
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 53
+          - property: field_end
+            value: 54
+      - name: EDUCA
+        description: Educational Attainment Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 55
+          - property: field_end
+            value: 55
+      - name: ANCFRST1
+        description: Ancestry Code 1 for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 56
+          - property: field_end
+            value: 58
+      - name: ANCSCND1
+        description: Ancestry Code 2 for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 59
+          - property: field_end
+            value: 61
+      - name: ANCA
+        description: Ancestry Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 62
+          - property: field_end
+            value: 62
+      - name: ANCR
+        description: Ancestry Recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 63
+          - property: field_end
+            value: 63
+      - name: SPEAK
+        description: Non-English Language
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 64
+          - property: field_end
+            value: 64
+      - name: SPEAKA
+        description: Non-English Language Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 65
+          - property: field_end
+            value: 65
+      - name: LANG1
+        description: Language Spoken for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 66
+          - property: field_end
+            value: 68
+      - name: LANGA
+        description: Language Spoken Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 69
+          - property: field_end
+            value: 69
+      - name: ENGABIL
+        description: English Ability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 70
+          - property: field_end
+            value: 70
+      - name: ENGABILA
+        description: English Ability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 71
+          - property: field_end
+            value: 71
+      - name: POB1
+        description: Place of Birth for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 72
+          - property: field_end
+            value: 74
+      - name: POBA
+        description: Place of Birth Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 75
+          - property: field_end
+            value: 75
+      - name: CITIZEN
+        description: Citizenship Status
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 76
+          - property: field_end
+            value: 76
+      - name: CITIZENA
+        description: Citizenship Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 77
+          - property: field_end
+            value: 77
+      - name: YR2US
+        description: Year of Entry to United States
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 78
+          - property: field_end
+            value: 81
+      - name: YR2USA
+        description: Year of Entry to United States Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 82
+          - property: field_end
+            value: 82
+      - name: MOB
+        description: Residence 5 Years Ago
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 83
+          - property: field_end
+            value: 83
+      - name: MOBA
+        description: Residence 5 Years Ago Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 84
+          - property: field_end
+            value: 84
+      - name: MIGST1
+        description: Migration State or Foreign Country Code for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 85
+          - property: field_end
+            value: 87
+      - name: MIGSTA
+        description: Migration State or Foreign County Code Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 88
+          - property: field_end
+            value: 88
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 89
+          - property: field_end
+            value: 93
+      - name: MIGPUMA1
+        description: Migration Super-PUMA
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 94
+          - property: field_end
+            value: 98
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 99
+          - property: field_end
+            value: 100
+      - name: MIGAREA1
+        description: Migration Super-PUMA Relationship to MA (See page 3-2)
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 101
+          - property: field_end
+            value: 102
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 103
+          - property: field_end
+            value: 106
+      - name: MIGCMA1
+        description: "Migration MA: MSA/CMSA for Migration Super-PUMA"
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 107
+          - property: field_end
+            value: 110
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 111
+          - property: field_end
+            value: 114
+      - name: MIGPMA1
+        description: "Migration MA: MSA/PMSA for Migration Super-PUMA"
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 115
+          - property: field_end
+            value: 118
+      - name: SENSORY
+        description: Sensory Disability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 119
+          - property: field_end
+            value: 119
+      - name: SENSORYA
+        description: Sensory Disability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 120
+          - property: field_end
+            value: 120
+      - name: PHYSCL
+        description: Physical Disability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 121
+          - property: field_end
+            value: 121
+      - name: PHYSCLA
+        description: Physical Disability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 122
+          - property: field_end
+            value: 122
+      - name: MENTAL
+        description: Mental Disability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 123
+          - property: field_end
+            value: 123
+      - name: MENTALA
+        description: Mental Disability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 124
+          - property: field_end
+            value: 124
+      - name: SLFCARE
+        description: Self-Care Disability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 125
+          - property: field_end
+            value: 125
+      - name: SLFCAREA
+        description: Self-Care Disability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 126
+          - property: field_end
+            value: 126
+      - name: ABGO
+        description: Able to Go Out Disability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 127
+          - property: field_end
+            value: 127
+      - name: ABGOA
+        description: Able to Go Out Disability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 128
+          - property: field_end
+            value: 128
+      - name: ABWORK
+        description: Employment Disability
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 129
+          - property: field_end
+            value: 129
+      - name: ABWORKA
+        description: Employment Disability Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 130
+          - property: field_end
+            value: 130
+      - name: DISABLE
+        description: Disability Recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 131
+          - property: field_end
+            value: 131
+      - name: GRANDC
+        description: Presence of Grandchildren under 18 years
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 132
+          - property: field_end
+            value: 132
+      - name: GRANDCA
+        description: Presence of Grandchildren under 18 years Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 133
+          - property: field_end
+            value: 133
+      - name: RSPNSBL
+        description: Responsible for Grandchildren
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 134
+          - property: field_end
+            value: 134
+      - name: RSPNSBLA
+        description: Responsible for Grandchildren Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 135
+          - property: field_end
+            value: 135
+      - name: HOWLONG
+        description: Length of Responsibility for Grandchildren
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 136
+          - property: field_end
+            value: 136
+      - name: HOWLONGA
+        description: Length of Responsibility for Grandchildren Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 137
+          - property: field_end
+            value: 137
+      - name: MILTARY
+        description: Military Service
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 138
+          - property: field_end
+            value: 138
+      - name: MILTARYA
+        description: Military Service Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 139
+          - property: field_end
+            value: 139
+      - name: VPS1
+        description: "Veteran's Period of Service 1: On active duty April 1995 or later"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 140
+          - property: field_end
+            value: 140
+      - name: VPS2
+        description: "Veteran's Period of Service 2: On active duty August 1990 to March 1995 (including Persian Gulf War)"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 141
+          - property: field_end
+            value: 141
+      - name: VPS3
+        description: "Veteran's Period of Service 3: On active duty September 1980 to July 1990"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 142
+          - property: field_end
+            value: 142
+      - name: VPS4
+        description: "Veteran's Period of Service 4: On active duty May 1975 to August 1980"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 143
+          - property: field_end
+            value: 143
+      - name: VPS5
+        description: "Veteran's Period of Service 5: On active duty during the Vietnam Era (August 1964 to April 1975)"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 144
+          - property: field_end
+            value: 144
+      - name: VPS6
+        description: "Veteran's Period of Service 6: On active duty February 1955 to July 1964"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 145
+          - property: field_end
+            value: 145
+      - name: VPS7
+        description: "Veteran's Period of Service 7: On active duty during the Korean War (June 1950 to January 1955)"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 146
+          - property: field_end
+            value: 146
+      - name: VPS8
+        description: "Veteran's Period of Service 8: On active duty during World War II (September 1940 to July 1947)"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 147
+          - property: field_end
+            value: 147
+      - name: VPS9
+        description: "Veteran's Period of Service 9: On active duty any other time"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 148
+          - property: field_end
+            value: 148
+      - name: VPSA
+        description: "Veteran's Period of Service Allocation Flag"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 149
+          - property: field_end
+            value: 149
+      - name: MILYRS
+        description: Years of Military Service
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 150
+          - property: field_end
+            value: 150
+      - name: MILYRSA
+        description: Years of Military Service Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 151
+          - property: field_end
+            value: 151
+      - name: VPSR
+        description: "Veteran's Period of Service Recode"
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 152
+          - property: field_end
+            value: 153
+      - name: ESR
+        description: Employment Status Recode
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 154
+          - property: field_end
+            value: 154
+      - name: ESRA
+        description: Employment Status Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 155
+          - property: field_end
+            value: 155
+      - name: ESP
+        description: Employment Status of Parent(s)
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 156
+          - property: field_end
+            value: 156
+      - name: POWST1
+        description: Place of Work State or Foreign Country Code for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 157
+          - property: field_end
+            value: 159
+      - name: POWSTA
+        description: Place of Work State or Foreign Country Code Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 160
+          - property: field_end
+            value: 160
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 161
+          - property: field_end
+            value: 165
+      - name: POWPUMA1
+        description: Place of Work Super-PUMA
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 166
+          - property: field_end
+            value: 170
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 171
+          - property: field_end
+            value: 172
+      - name: POWAREA1
+        description: Place of Work Super-PUMA Relationship to MA (See page 3-2)
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 173
+          - property: field_end
+            value: 174
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 175
+          - property: field_end
+            value: 178
+      - name: POWCMA1
+        description: "Place of Work MA: MSA/CMSA for Place of Work Super-PUMA"
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 179
+          - property: field_end
+            value: 182
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 183
+          - property: field_end
+            value: 186
+      - name: POWPMA1
+        description: "Place of Work MA: MSA/PMSA for Place of Work Super-PUMA"
+        logicalType: string
+        physicalType: CHAR(4)
+        customProperties:
+          - property: field_start
+            value: 187
+          - property: field_end
+            value: 190
+      - name: TRVMNS
+        description: Means of Transportation to Work
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 191
+          - property: field_end
+            value: 192
+      - name: TRVMNSA
+        description: Means of Transportation to Work Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 193
+          - property: field_end
+            value: 193
+      - name: CARPOOL
+        description: Vehicle Occupancy
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 194
+          - property: field_end
+            value: 194
+      - name: CARPOOLA
+        description: Vehicle Occupancy Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 195
+          - property: field_end
+            value: 195
+      - name: LVTIME
+        description: Time Leaving for Work
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 196
+          - property: field_end
+            value: 198
+      - name: LVTIMEA
+        description: Time Leaving for Work Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 199
+          - property: field_end
+            value: 199
+      - name: TRVTIME
+        description: Travel Time to Work
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 200
+          - property: field_end
+            value: 202
+      - name: TRVTIMEA
+        description: Travel Time to Work Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 203
+          - property: field_end
+            value: 203
+      - name: LAYOFF
+        description: Layoff from Job
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 204
+          - property: field_end
+            value: 204
+      - name: ABSENT
+        description: Absent from Work
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 205
+          - property: field_end
+            value: 205
+      - name: RECALL
+        description: Return-to-Work Recall
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 206
+          - property: field_end
+            value: 206
+      - name: LOOKWRK
+        description: Looking for Work
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 207
+          - property: field_end
+            value: 207
+      - name: BACKWRK
+        description: Back to Work
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 208
+          - property: field_end
+            value: 208
+      - name: LASTWRK
+        description: Year Last Worked
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 209
+          - property: field_end
+            value: 209
+      - name: LASTWRKA
+        description: Year Last Worked Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 210
+          - property: field_end
+            value: 210
+      - name: INDCEN
+        description: Industry (Census)
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 211
+          - property: field_end
+            value: 213
+      - name: INDCENA
+        description: Industry (Census) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 214
+          - property: field_end
+            value: 214
+      - name: INDNAICS
+        description: Industry (NAICS)
+        logicalType: string
+        physicalType: CHAR(8)
+        customProperties:
+          - property: field_start
+            value: 215
+          - property: field_end
+            value: 222
+      - name: OCCCEN1
+        description: Occupation (Census) for 1% file
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 223
+          - property: field_end
+            value: 225
+      - name: OCCCENA
+        description: Occupation (Census) Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 226
+          - property: field_end
+            value: 226
+      - name: OCCSOC1
+        description: Occupation (SOC) for 1% file
+        logicalType: string
+        physicalType: CHAR(7)
+        customProperties:
+          - property: field_start
+            value: 227
+          - property: field_end
+            value: 233
+      - name: CLWKR
+        description: Class of Worker
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 234
+          - property: field_end
+            value: 234
+      - name: CLWKRA
+        description: Class of Worker Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 235
+          - property: field_end
+            value: 235
+      - name: WRKLYR
+        description: Worked in 1999
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 236
+          - property: field_end
+            value: 236
+      - name: WRKLYRA
+        description: Worked in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 237
+          - property: field_end
+            value: 237
+      - name: WEEKS
+        description: Weeks Worked in 1999
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 238
+          - property: field_end
+            value: 239
+      - name: WEEKSA
+        description: Weeks Worked in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 240
+          - property: field_end
+            value: 240
+      - name: HOURS
+        description: Hours Per Week in 1999
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 241
+          - property: field_end
+            value: 242
+      - name: HOURSA
+        description: Hours Per Week in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 243
+          - property: field_end
+            value: 243
+      - name: INCWS
+        description: Wage/Salary Income in 1999
+        logicalType: string
+        physicalType: CHAR(6)
+        customProperties:
+          - property: field_start
+            value: 244
+          - property: field_end
+            value: 249
+      - name: INCWSA
+        description: Wage/Salary Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 250
+          - property: field_end
+            value: 250
+      - name: INCSE
+        description: Self-Employment Income in 1999
+        logicalType: string
+        physicalType: CHAR(6)
+        customProperties:
+          - property: field_start
+            value: 251
+          - property: field_end
+            value: 256
+      - name: INCSEA
+        description: Self-Employment Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 257
+          - property: field_end
+            value: 257
+      - name: INCINT
+        description: Interest Income in 1999
+        logicalType: string
+        physicalType: CHAR(6)
+        customProperties:
+          - property: field_start
+            value: 258
+          - property: field_end
+            value: 263
+      - name: INCINTA
+        description: Interest Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 264
+          - property: field_end
+            value: 264
+      - name: INCSS
+        description: Social Security Income in 1999
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 265
+          - property: field_end
+            value: 269
+      - name: INCSSA
+        description: Social Security Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 270
+          - property: field_end
+            value: 270
+      - name: INCSSI
+        description: Supplemental Security Income in 1999
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 271
+          - property: field_end
+            value: 275
+      - name: INCSSIA
+        description: Supplemental Security Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 276
+          - property: field_end
+            value: 276
+      - name: INCPA
+        description: Public Assistance Income in 1999
+        logicalType: string
+        physicalType: CHAR(5)
+        customProperties:
+          - property: field_start
+            value: 277
+          - property: field_end
+            value: 281
+      - name: INCPAA
+        description: Public Assistance Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 282
+          - property: field_end
+            value: 282
+      - name: INCRET
+        description: Retirement Income in 1999
+        logicalType: string
+        physicalType: CHAR(6)
+        customProperties:
+          - property: field_start
+            value: 283
+          - property: field_end
+            value: 288
+      - name: INCRETA
+        description: Retirement Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 289
+          - property: field_end
+            value: 289
+      - name: INCOTH
+        description: Other Income in 1999
+        logicalType: string
+        physicalType: CHAR(6)
+        customProperties:
+          - property: field_start
+            value: 290
+          - property: field_end
+            value: 295
+      - name: INCOTHA
+        description: Other Income in 1999 Allocation Flag
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 296
+          - property: field_end
+            value: 296
+      - name: INCTOT
+        description: "Person's Total Income in 1999"
+        logicalType: string
+        physicalType: CHAR(7)
+        customProperties:
+          - property: field_start
+            value: 297
+          - property: field_end
+            value: 303
+      - name: INCTOTA
+        description: "Person's Total Income in 1999 Allocation Flag"
+        logicalType: string
+        physicalType: CHAR(1)
+        customProperties:
+          - property: field_start
+            value: 304
+          - property: field_end
+            value: 304
+      - name: EARNS
+        description: "Person's Total Earnings in 1999"
+        logicalType: string
+        physicalType: CHAR(7)
+        customProperties:
+          - property: field_start
+            value: 305
+          - property: field_end
+            value: 311
+      - name: POVERTY
+        description: "Person's Poverty Status"
+        logicalType: string
+        physicalType: CHAR(3)
+        customProperties:
+          - property: field_start
+            value: 312
+          - property: field_end
+            value: 314
+      - name: FILLER
+        description: Filler
+        logicalType: string
+        physicalType: CHAR(2)
+        customProperties:
+          - property: field_start
+            value: 315
+          - property: field_end
+            value: 316
