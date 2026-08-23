@@ -5,6 +5,8 @@ id: 4d1bc484-cd4a-426b-99e0-dd701e0b80a3
 name: pums_census_2000_1_percent
 version: 0.0.1
 status: active
+team:
+  name: governance-group
 schema:
   - name: housing_unit_record
     logicalType: object

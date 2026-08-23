@@ -1,0 +1,21 @@
+# $schema: https://raw.githubusercontent.com/bitol-io/open-data-product-standard/refs/heads/main/schema/odps-json-schema-latest.json
+apiVersion: v1.0.0
+kind: DataProduct
+id: b72678bf-61d8-4d88-84a5-7254edf72c8f
+name: pums_census_2000_1_percent
+version: 0.0.1
+status: active
+team:
+  name: governance-group
+customProperties:
+  - property: type
+    value: consumer-aligned
+  - property: visibility
+    value: public
+outputPorts:
+  - name: 4d1bc484-cd4a-426b-99e0-dd701e0b80a3
+    version: 0.0.1
+    contractId: 4d1bc484-cd4a-426b-99e0-dd701e0b80a3
+    customProperties:
+    - property: displayName
+      value: pums_census_2000_1_percent

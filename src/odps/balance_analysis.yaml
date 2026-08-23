@@ -1,0 +1,21 @@
+# $schema: https://raw.githubusercontent.com/bitol-io/open-data-product-standard/refs/heads/main/schema/odps-json-schema-latest.json
+apiVersion: v1.0.0
+kind: DataProduct
+id: 43dceb0d-eed8-4a61-9153-624a025e041b
+name: balance_analysis
+status: active
+description: {}
+team:
+  name: governance-group
+customProperties:
+  - property: type
+    value: consumer-aligned
+  - property: visibility
+    value: public
+outputPorts:
+  - name: 805910e0-fb88-4c45-b445-e6f4f939397f
+    version: 0.0.1
+    contractId: 805910e0-fb88-4c45-b445-e6f4f939397f
+    customProperties:
+    - property: displayName
+      value: balance_analysis

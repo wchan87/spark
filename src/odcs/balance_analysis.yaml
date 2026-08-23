@@ -5,6 +5,8 @@ id: 805910e0-fb88-4c45-b445-e6f4f939397f
 name: balance_analysis
 version: 0.0.1
 status: active
+team:
+  name: governance-group
 schema:
   - name: dataframe
     logicalType: object
