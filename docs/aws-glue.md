@@ -152,3 +152,49 @@ The following instructions are to publish OpenLineage information to a local ins
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 3. Check the data lineage through http://localhost:3000/
+
+### AWS Glue Streaming
+
+Based on [Spark Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming-programming-guide.html) and [Structured Streaming + Kafka Integration Guide (Kafka broker version 0.10.0 or higher)](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html),
+1. Based on [Developing event-driven applications with Kafka and Docker > Starting Kafka](https://docs.docker.com/guides/kafka/#starting-kafka)
+   1. Start the Kafka broker
+      ```bash
+      docker run --name=kafka -p 9092:9092 --rm -d apache/kafka:4.3.1
+      ```
+      * Check the status of the Kafka broker 
+         ```bash
+         docker exec kafka /opt/kafka/bin/kafka-cluster.sh cluster-id --bootstrap-server :9092
+         ```
+   2. Create the `output` topic
+      ```bash
+      docker exec kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server :9092 --topic output
+      ```
+      * Check what's published in the `output` topic
+         ```bash
+         docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic output --from-beginning
+         ```
+   3. Create the `input` topic and write messages into it
+      ```bash
+      docker exec -ti kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server :9092 --topic input
+      ```
+      * Check what's published in the `input` topic
+         ```bash
+         docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic input --from-beginning
+         ```
+2. Disable Windows path resolution if running via Git Bash
+   ```bash
+   export MSYS_NO_PATHCONV=1
+   ```
+3. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_analysis_streaming.py
+   SPARK_SUBMIT_ARGS="--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.4"
+   SCRIPT_ARGS=
+   ```
+4. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name glue5_spark_submit \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       amazon/aws-glue-libs:5.0.9 \
+       -c "spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+   ```

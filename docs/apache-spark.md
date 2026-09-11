@@ -82,3 +82,20 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#pums-parsing) for the initial 
        spark:4.1.2-scala2.13-java21-python3-ubuntu \
        bash -c "python3 -m pip install \"open-data-contract-standard==3.1.2\" && /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
+
+### Apache Spark Streaming
+
+Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming) for the initial setup
+1. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_analysis_streaming.py
+   SPARK_SUBMIT_ARGS="--packages org.apache.spark:spark-sql-kafka-0-10_2.13:4.1.2"
+   SCRIPT_ARGS=
+   ```
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name spark_4 -u 0 \
+       -v $PWD/src/spark/:/opt/spark/work-dir/ \
+       spark:4.1.2-scala2.13-java21-python3-ubuntu \
+       bash -c "/opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+   ```
