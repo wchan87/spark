@@ -157,9 +157,9 @@ The following instructions are to publish OpenLineage information to a local ins
 
 The following instructions are for setting up a local Kafka and running a Glue Streaming job
 1. Based on [Developing event-driven applications with Kafka and Docker > Starting Kafka](https://docs.docker.com/guides/kafka/#starting-kafka)
-   1. Start the Kafka broker
+   1. Start the Kafka container
       ```bash
-      docker run --name=kafka --rm -p 9092:9092 -d \
+      docker run --name=kafka -p 9092:9092 -d \
         -e KAFKA_NODE_ID=1 \
         -e KAFKA_PROCESS_ROLES=broker,controller \
         -e KAFKA_LISTENERS=CONTROLLER://0.0.0.0:9093,BROKER://0.0.0.0:9092 \
@@ -176,10 +176,12 @@ The following instructions are for setting up a local Kafka and running a Glue S
          ```bash
          docker exec kafka /opt/kafka/bin/kafka-cluster.sh cluster-id --bootstrap-server :9092
          ```
-   2. Create the `input` and `output` topics via [kafka-topics.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-topics-sh)
+   2. Create the `input`, `RCCCBBALTOT`, `RCCCBBALREV` and `output` topics via [kafka-topics.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-topics-sh)
       ```bash
       docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic input --replication-factor 1
       docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic output --replication-factor 1
+      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic RCCCBBALTOT --replication-factor 1
+      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic RCCCBBALREV --replication-factor 1
       ```
    3. Write messages into the `input` topic, and exit with `Ctrl + C` via [kafka-console-producer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-producer-sh)
       ```bash
@@ -189,6 +191,15 @@ The following instructions are for setting up a local Kafka and running a Glue S
          ```bash
          docker exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic input --from-beginning
          ```
+   4. Write messages into the `RCCCBBALTOT` and `RCCCBBALREV` topics
+      ```bash
+      python src/scripts/write_fred_data_to_kafka.py
+      ```
+   5. Stop and remove the Kafka container
+      ```bash
+      docker stop kafka
+      docker rm kafka
+      ```
 2. Disable Windows path resolution if running via Git Bash
    ```bash
    export MSYS_NO_PATHCONV=1

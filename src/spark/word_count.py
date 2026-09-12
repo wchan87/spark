@@ -1,7 +1,7 @@
-import sys
 from operator import add
 from pyspark import RDD
 from pyspark.sql import SparkSession
+import sys
 
 
 def word_count(spark_session: SparkSession, file_path: str) -> list:

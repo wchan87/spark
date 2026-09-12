@@ -1,6 +1,7 @@
-import urllib.request
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructField, StructType, DateType, DecimalType
+import urllib.request
+
 
 # Large Bank Consumer Credit Card Balances: Total Balances (RCCCBBALTOT)
 # Large Bank Consumer Credit Card Balances: Revolving Balances Only (RCCCBBALREV)
