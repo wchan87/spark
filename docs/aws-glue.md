@@ -217,12 +217,6 @@ The following instructions are for setting up a local Kafka and running a Glue S
       docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic RCCCBPAYMENT --from-beginning
       ```
 
-**Note:** [Checkpoint location](https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html#recovering-from-failures-with-checkpointing) is necessary or the following stack trace would be thrown
-```
-Traceback (most recent call last):
-  ...
-  File "/usr/lib/spark/python/lib/pyspark.zip/pyspark/sql/streaming/readwriter.py", line 1527, in start
-  File "/usr/lib/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
-  File "/usr/lib/spark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
-: checkpointLocation must be specified either through option("checkpointLocation", ...) or SparkSession.conf.set("spark.sql.streaming.checkpointLocation", ...).
-```
+AWS Glue Streaming has [two execution models](https://docs.aws.amazon.com/glue/latest/dg/glue-streaming-execution-models.html)
+* [Micro-batch mode](https://docs.aws.amazon.com/glue/latest/dg/glue-streaming-execution-models.html#glue-streaming-micro-batch-mode) which "is the default execution model for all AWS Glue streaming jobs. This mode uses [forEachBatch](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-crawler-pyspark-extensions-glue-context.html#aws-glue-api-crawler-pyspark-extensions-glue-context-forEachBatch) or `Trigger.ProcessingTime` to poll the source at configured intervals."
+* [Real-time mode (AWS Glue 6.0+)](https://docs.aws.amazon.com/glue/latest/dg/glue-streaming-execution-models.html#glue-streaming-concepts-real-time-mode) which "is a new execution model for [Spark Structured Streaming](/docs/apache-spark.md#apache-spark-streaming) available starting in AWS Glue 6.0 that reduces end-to-end latency to sub-second. Real-time mode can also help achieve millisecond-level latencies for eligible workloads. Tasks run continuously, processing records as they arrive rather than waiting for data to accumulate. Real-time mode applies only to Spark Structured Streaming and does not apply to legacy Spark Streaming (DStreams)."

@@ -107,9 +107,17 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#pums-parsing) for the initial 
 
 See the related documentation:
 * [Spark Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming-programming-guide.html) is a guide to implement "Spark Streaming[, which] is the previous generation of Spark’s streaming engine,"
-* [Structured Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming/index.html) is a guide to implement Structured Streaming, which "is a scalable and fault-tolerant stream processing engine built on the Spark SQL engine"
+* [Structured Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming/index.html) is a guide to implement Structured Streaming, which "is a scalable and fault-tolerant stream processing engine built on the Spark SQL engine
+  > Internally, by default, Structured Streaming queries are processed using a micro-batch processing engine, which processes data streams as a series of small batch jobs thereby achieving end-to-end latencies as low as 100 milliseconds and exactly-once fault-tolerance guarantees.
   * [Continuous Processing](https://spark.apache.org/docs/latest/streaming/performance-tips.html#continuous-processing) "is a new, experimental streaming execution mode introduced in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees. Compare this with the default micro-batch processing engine which can achieve exactly-once guarantees but achieve latencies of ~100ms at best"
 * [Structured Streaming + Kafka Integration Guide (Kafka broker version 0.10.0 or higher)](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html)
+  * Kafka doesn't have to be processed via Structured Streaming based on the following documentation:
+    * [pyspark.sql.SparkSession.read](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.read.html#pyspark.sql.SparkSession.read) can be used instead of [pyspark.sql.SparkSession.readStream](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.readStream.html) to operate as batch processing instead of stream processing based on [Creating a Kafka Source for Batch Queries](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html#creating-a-kafka-source-for-batch-queries)
+      * `pyspark.sql.SparkSession.read` returns [pyspark.sql.DataFrameReader](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameReader.html)
+      * `pyspark.sql.SparkSession.readStream` returns [pyspark.sql.streaming.DataStreamReader](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamReader.html)
+    * [pyspark.sql.DataFrame.write](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.write.html) can be used instead of [pyspark.sql.DataFrame.writeStream](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.writeStream.html) based on [Writing the output of Batch Queries to Kafka](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html#writing-the-output-of-batch-queries-to-kafka)
+      * `pyspark.sql.SparkSession.write` returns [pyspark.sql.DataFrameWriter](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameWriter.html)
+      * `pyspark.sql.SparkSession.writeStream` returns [pyspark.sql.streaming.DataStreamWriter](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamWriter.html)
 
 Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming) for the initial setup
 1. Set up workspace and script locations
@@ -144,3 +152,19 @@ formatted_df: DataFrame = df.select(
    col("timestampType"))
 )
 ```
+
+**Note:** The [checkpoint location](https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html#recovering-from-failures-with-checkpointing) is necessary or the following stack trace would be thrown
+```
+Traceback (most recent call last):
+  ...
+  File "/usr/lib/spark/python/lib/pyspark.zip/pyspark/sql/streaming/readwriter.py", line 1527, in start
+  File "/usr/lib/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+  File "/usr/lib/spark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
+: checkpointLocation must be specified either through option("checkpointLocation", ...) or SparkSession.conf.set("spark.sql.streaming.checkpointLocation", ...).
+```
+
+**Note:** Based on [pyspark.sql.streaming.DataStreamWriter.trigger](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamWriter.trigger.html) function description,
+* `processingTime` appears to correspond to the "default micro-batch processing engine"
+* `continuous` appears to correspond to "continuous processing" mode which is experimental
+* `realTime` appears to correspond to the "real-time mode" for AWS Glue Streaming which was introduced in AWS Glue 6.0
+* "If this is not set it will run the query as fast as possible, which is equivalent to setting the trigger to `processingTime='0 seconds'`."
