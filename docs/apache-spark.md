@@ -64,6 +64,26 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#federal-reserve-data-analytics
        /opt/spark/bin/spark-submit /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 
+### Federal Reserve Data Analytics with Library
+
+Refer to the similar [AWS Glue](/docs/aws-glue.md#federal-reserve-data-analytics-with-library) instructions for the initial setup
+1. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_analysis_lib.py
+   SPARK_SUBMIT_ARGS=
+   SCRIPT_ARGS=
+   ```
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name spark \
+       -v $PWD/src/spark/:/opt/spark/work-dir/ \
+       -v $PWD/src/libraries/:/opt/spark/libraries/ \
+       -v $PWD/temp/:/opt/spark/temp/ \
+       spark:3.5.4-scala2.12-java17-python3-ubuntu \
+       bash -c "export PYTHONPATH=\$PYTHONPATH:/opt/spark/libraries/ && /opt/spark/bin/spark-submit /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+   ```
+   * [src/libraries/](/src/libraries/) and `export PYTHONPATH=\$PYTHONPATH:/opt/spark/libraries/` is mounted 
+
 ### PUMS Parsing
 
 Refer to the similar [AWS Glue](/docs/aws-glue.md#pums-parsing) for the initial setup
@@ -102,6 +122,25 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming) for the in
    ```bash
    docker run -it --rm --name spark_4 -u 0 \
        -v $PWD/src/spark/:/opt/spark/work-dir/ \
+       -v $PWD/src/libraries/:/opt/spark/libraries/ \
        spark:4.1.2-scala2.13-java21-python3-ubuntu \
-       bash -c "/opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+       bash -c "export PYTHONPATH=\$PYTHONPATH:/opt/spark/libraries/ && /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
+
+The `DataFrame` that is created from reading the Kafka topic has the columns mentioned below with `key` and `value` needing to be cast back to `STRING`. If the `value` is stringified via [json.dumps](https://docs.python.org/3/library/json.html#json.dumps), then [pyspark.sql.functions.from_json](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.functions.from_json.html) is needed to reverse it.
+```python
+from pyspark.sql import DataFrame
+from pyspark.sql.functions import col
+
+df: DataFrame = ... # read from Kafka topic
+
+# Cast binary key and value columns to string
+formatted_df: DataFrame = df.select(
+   col("key").cast("STRING"), 
+   col("value").cast("STRING"),
+   col("partition"),
+   col("offset"),
+   col("timestamp"),
+   col("timestampType"))
+)
+```

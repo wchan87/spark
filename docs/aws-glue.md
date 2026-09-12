@@ -83,6 +83,8 @@ The following instructions are for running PySpark application defined by [src/s
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 
+### Federal Reserve Data Analytics with Library
+
 The following instructions are for running PySpark application defined by [src/spark/credit_card_balance_analysis_lib.py](/src/spark/credit_card_balance_analysis_lib.py):
 1. Disable Windows path resolution if running via Git Bash
    ```bash
@@ -214,8 +216,9 @@ The following instructions are for setting up a local Kafka and running a Glue S
    ```bash
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/src/libraries/:/home/hadoop/libraries/ \
        amazon/aws-glue-libs:5.0.9 \
-       -c "spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
+       -c "export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/ && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
    * Check what's published in the `output` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
       ```bash

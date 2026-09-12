@@ -22,5 +22,6 @@ for fred_id in fred_ids:
     text_buffer: io.TextIOWrapper = io.TextIOWrapper(buffer, "UTF-8")
     csv_reader: csv.DictReader = csv.DictReader(text_buffer)
     for row in csv_reader:
+        row[fred_id] = float(row[fred_id]) * 1_000_000_000
         producer.produce(fred_id, key=row["observation_date"], value=json.dumps(row))
     producer.flush()
