@@ -85,6 +85,11 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#pums-parsing) for the initial 
 
 ### Apache Spark Streaming
 
+See the related documentation:
+* [Spark Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming-programming-guide.html) is a guide to implement "Spark Streaming[, which] is the previous generation of Spark’s streaming engine,"
+* [Structured Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming/index.html) is a guide to implement Structured Streaming, which "is a scalable and fault-tolerant stream processing engine built on the Spark SQL engine"
+* [Structured Streaming + Kafka Integration Guide (Kafka broker version 0.10.0 or higher)](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html)
+
 Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming) for the initial setup
 1. Set up workspace and script locations
    ```bash

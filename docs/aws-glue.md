@@ -138,7 +138,7 @@ Refer to the following documentation
 * [OpenLineage > Integrations > Apache Spark > Configuration > Usage](https://openlineage.io/docs/integrations/spark/configuration/usage)
 * [AWS Big Data Blog > Build data lineage for data lakes using AWS Glue, Amazon Neptune, and Spline](https://aws.amazon.com/blogs/big-data/amazon-datazone-introduces-openlineage-compatible-data-lineage-visualization-in-preview/)
 
-The following instructions are to publish OpenLineage information to a local instance of 
+The following instructions are to publish OpenLineage information to a local instance
 1. Make the following changes to the prior [Federal Reserve Data Analytics](#federal-reserve-data-analytics)
    ```bash
    export SPARK_SUBMIT_ARGS="--conf spark.extraListeners=io.openlineage.spark.agent.OpenLineageSparkListener --conf spark.openlineage.transport.type=http --conf spark.openlineage.transport.url=http://host.docker.internal:5000 --conf spark.openlineage.namespace=spark_namespace --conf spark.openlineage.parentJobNamespace=airflow_namespace --conf spark.openlineage.parentJobName=airflow_dag.airflow_task --conf spark.openlineage.parentRunId=xxxx-xxxx-xxxx-xxxx --packages io.openlineage:openlineage-spark_2.12:1.44.0"
@@ -155,31 +155,39 @@ The following instructions are to publish OpenLineage information to a local ins
 
 ### AWS Glue Streaming
 
-Based on [Spark Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming-programming-guide.html) and [Structured Streaming + Kafka Integration Guide (Kafka broker version 0.10.0 or higher)](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html),
+The following instructions are for setting up a local Kafka and running a Glue Streaming job
 1. Based on [Developing event-driven applications with Kafka and Docker > Starting Kafka](https://docs.docker.com/guides/kafka/#starting-kafka)
    1. Start the Kafka broker
       ```bash
-      docker run --name=kafka -p 9092:9092 --rm -d apache/kafka:4.3.1
+      docker run --name=kafka --rm -p 9092:9092 -d \
+        -e KAFKA_NODE_ID=1 \
+        -e KAFKA_PROCESS_ROLES=broker,controller \
+        -e KAFKA_LISTENERS=CONTROLLER://0.0.0.0:9093,BROKER://0.0.0.0:9092 \
+        -e KAFKA_ADVERTISED_LISTENERS=BROKER://host.docker.internal:9092 \
+        -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+        -e KAFKA_INTER_BROKER_LISTENER_NAME=BROKER \
+        -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,BROKER:PLAINTEXT \
+        -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 \
+        -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+        apache/kafka:4.3.1
       ```
-      * Check the status of the Kafka broker 
+      * See [Kafka Docker Image Usage Guide](https://github.com/apache/kafka/blob/trunk/docker/examples/README.md) for more information
+      * Check the status of the Kafka broker via [kafka-cluster.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-cluster-sh)
          ```bash
          docker exec kafka /opt/kafka/bin/kafka-cluster.sh cluster-id --bootstrap-server :9092
          ```
-   2. Create the `output` topic
+   2. Create the `input` and `output` topics via [kafka-topics.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-topics-sh)
       ```bash
-      docker exec kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server :9092 --topic output
+      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic input --replication-factor 1
+      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic output --replication-factor 1
       ```
-      * Check what's published in the `output` topic
-         ```bash
-         docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic output --from-beginning
-         ```
-   3. Create the `input` topic and write messages into it
+   3. Write messages into the `input` topic, and exit with `Ctrl + C` via [kafka-console-producer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-producer-sh)
       ```bash
       docker exec -ti kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server :9092 --topic input
       ```
-      * Check what's published in the `input` topic
+      * Check what's published in the `input` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
          ```bash
-         docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic input --from-beginning
+         docker exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic input --from-beginning
          ```
 2. Disable Windows path resolution if running via Git Bash
    ```bash
@@ -198,3 +206,7 @@ Based on [Spark Streaming Programming Guide](https://spark.apache.org/docs/lates
        amazon/aws-glue-libs:5.0.9 \
        -c "spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
+   * Check what's published in the `output` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
+      ```bash
+      docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic output --from-beginning
+      ```
