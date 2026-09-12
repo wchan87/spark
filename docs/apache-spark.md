@@ -88,6 +88,7 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#pums-parsing) for the initial 
 See the related documentation:
 * [Spark Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming-programming-guide.html) is a guide to implement "Spark Streaming[, which] is the previous generation of Spark’s streaming engine,"
 * [Structured Streaming Programming Guide](https://spark.apache.org/docs/latest/streaming/index.html) is a guide to implement Structured Streaming, which "is a scalable and fault-tolerant stream processing engine built on the Spark SQL engine"
+  * [Continuous Processing](https://spark.apache.org/docs/latest/streaming/performance-tips.html#continuous-processing) "is a new, experimental streaming execution mode introduced in Spark 2.3 that enables low (~1 ms) end-to-end latency with at-least-once fault-tolerance guarantees. Compare this with the default micro-batch processing engine which can achieve exactly-once guarantees but achieve latencies of ~100ms at best"
 * [Structured Streaming + Kafka Integration Guide (Kafka broker version 0.10.0 or higher)](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html)
 
 Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming) for the initial setup
