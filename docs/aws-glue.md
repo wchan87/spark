@@ -178,26 +178,18 @@ The following instructions are for setting up a local Kafka and running a Glue S
          ```bash
          docker exec kafka /opt/kafka/bin/kafka-cluster.sh cluster-id --bootstrap-server :9092
          ```
-   2. Create the `input`, `RCCCBBALTOT`, `RCCCBBALREV` and `output` topics via [kafka-topics.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-topics-sh)
+   2. Create the `RCCCBBALTOT`, `RCCCBBALREV` and `RCCCBPAYMENT` topics via [kafka-topics.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-topics-sh)
       ```bash
-      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic input --replication-factor 1
-      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic output --replication-factor 1
       docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic RCCCBBALTOT --replication-factor 1
       docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic RCCCBBALREV --replication-factor 1
+      docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic RCCCBPAYMENT --replication-factor 1
       ```
-   3. Write messages into the `input` topic, and exit with `Ctrl + C` via [kafka-console-producer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-producer-sh)
-      ```bash
-      docker exec -ti kafka /opt/kafka/bin/kafka-console-producer.sh --bootstrap-server :9092 --topic input
-      ```
-      * Check what's published in the `input` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
-         ```bash
-         docker exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic input --from-beginning
-         ```
-   4. Write messages into the `RCCCBBALTOT` and `RCCCBBALREV` topics
+      * Write messages and exit with `Ctrl + C` via [kafka-console-producer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-producer-sh)
+   3. Write messages into the `RCCCBBALTOT` and `RCCCBBALREV` topics
       ```bash
       python src/scripts/write_fred_data_to_kafka.py
       ```
-   5. Stop and remove the Kafka container
+   4. Stop and remove the Kafka container
       ```bash
       docker stop kafka
       docker rm kafka
@@ -220,7 +212,17 @@ The following instructions are for setting up a local Kafka and running a Glue S
        amazon/aws-glue-libs:5.0.9 \
        -c "export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/ && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
-   * Check what's published in the `output` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
+   * Check what's published in the `RCCCBPAYMENT` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
       ```bash
-      docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic output --from-beginning
+      docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic RCCCBPAYMENT --from-beginning
       ```
+
+**Note:** [Checkpoint location](https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html#recovering-from-failures-with-checkpointing) is necessary or the following stack trace would be thrown
+```
+Traceback (most recent call last):
+  ...
+  File "/usr/lib/spark/python/lib/pyspark.zip/pyspark/sql/streaming/readwriter.py", line 1527, in start
+  File "/usr/lib/spark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1322, in __call__
+  File "/usr/lib/spark/python/lib/pyspark.zip/pyspark/errors/exceptions/captured.py", line 185, in deco
+: checkpointLocation must be specified either through option("checkpointLocation", ...) or SparkSession.conf.set("spark.sql.streaming.checkpointLocation", ...).
+```
