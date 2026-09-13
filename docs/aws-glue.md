@@ -227,7 +227,7 @@ The following instructions are for running PySpark application defined by [src/s
 1. Set up workspace and script locations
    ```bash
    SCRIPT_FILE_NAME=credit_card_balance_dq.py
-   SPARK_SUBMIT_ARGS="--packages com.amazon.deequ:deequ:2.0.13-spark-3.5,software.amazon.glue:dqdl:1.0.0"
+   SPARK_SUBMIT_ARGS="--packages com.amazon.deequ:deequ:2.0.21-spark-3.5,software.amazon.glue:dqdl:1.0.0"
    SCRIPT_ARGS="--temp_dir /home/hadoop/temp"
    ```
 2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
@@ -235,6 +235,23 @@ The following instructions are for running PySpark application defined by [src/s
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/temp/:/home/hadoop/temp/ \
+       amazon/aws-glue-libs:5.0.9 \
+       spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   ```
+
+### AWS Glue Streaming + AWS Glue DQ
+
+The following instructions are for running PySpark application defined by [src/spark/credit_card_balance_dq_streaming.py](/src/spark/credit_card_balance_dq_streaming.py) for reading the `RCCCBPAYMENT` topic populated by [AWS Glue Streaming](#aws-glue-streaming).
+1. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_dq_streaming.py
+   SPARK_SUBMIT_ARGS="--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.4,com.amazon.deequ:deequ:2.0.21-spark-3.5,software.amazon.glue:dqdl:1.0.0"
+   SCRIPT_ARGS=
+   ```
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name glue5_spark_submit \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
        amazon/aws-glue-libs:5.0.9 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```

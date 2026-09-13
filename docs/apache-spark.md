@@ -186,3 +186,25 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-dq) for the initial s
        spark:4.1.2-scala2.13-java21-python3-ubuntu \
        /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
+
+## Spark Streaming + Deequ
+
+Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming--aws-glue-dq) for the initial setup
+1. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_dq_streaming.py
+   SPARK_SUBMIT_ARGS="--packages org.apache.spark:spark-sql-kafka-0-10_2.13:4.1.2,com.amazon.deequ:deequ:2.0.18-spark-4.1,software.amazon.glue:dqdl:1.0.2"
+   SCRIPT_ARGS=
+   ```
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name spark_4 -u 0 \
+       -v $PWD/src/spark/:/opt/spark/work-dir/ \
+       spark:4.1.2-scala2.13-java21-python3-ubuntu \
+       /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   ```
+
+The code uses batch processing via `SparkSession.read` instead of stream processing via `SparkSession.readStream`. If stream processing is used, then the `FailureReason` for `IsComplete "observation_date"` would look like this:
+> org.apache.spark.sql.AnalysisException: Queries with streaming sources must be executed with writeStream.start(), or from a streaming table or flow definition within a Spark Declarative Pipeline.;\nkafka
+
+The hypothesis is that the [com.amazon.deequ.dqdl.EvaluateDataQuality](https://github.com/awslabs/deequ/blob/master/src/main/scala/com/amazon/deequ/dqdl/EvaluateDataQuality.scala) for the underlying Deequ library doesn't appear to support Structured Streaming.
