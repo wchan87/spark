@@ -168,3 +168,21 @@ Traceback (most recent call last):
 * `continuous` appears to correspond to "continuous processing" mode which is experimental
 * `realTime` appears to correspond to the "real-time mode" for AWS Glue Streaming which was introduced in AWS Glue 6.0
 * "If this is not set it will run the query as fast as possible, which is equivalent to setting the trigger to `processingTime='0 seconds'`."
+
+## Spark + Deequ
+
+Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-dq) for the initial setup
+1. Set up workspace and script locations
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_dq.py
+   SPARK_SUBMIT_ARGS="--packages com.amazon.deequ:deequ:2.0.18-spark-4.1,software.amazon.glue:dqdl:1.0.2"
+   SCRIPT_ARGS="--temp_dir /opt/spark/temp"
+   ```
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name spark_4 -u 0 \
+       -v $PWD/src/spark/:/opt/spark/work-dir/ \
+       -v $PWD/temp/:/opt/spark/temp/ \
+       spark:4.1.2-scala2.13-java21-python3-ubuntu \
+       /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   ```
