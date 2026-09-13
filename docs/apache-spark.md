@@ -204,7 +204,27 @@ Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming--aws-glue-d
        /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 
-The code uses batch processing via `SparkSession.read` instead of stream processing via `SparkSession.readStream`. If stream processing is used, then the `FailureReason` for `IsComplete "observation_date"` would look like this:
+### Spark Streaming + Deequ - Batch vs Streaming
+
+The code uses stream processing via `SparkSession.readStream` with [pyspark.sql.streaming.DataStreamWriter.foreachBatch](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamWriter.foreachBatch.html) to switch back to batch processing. If stream processing is used without `pyspark.sql.streaming.DataStreamWriter.foreachBatch`, then the `FailureReason` for `IsComplete "observation_date"` would look like this:
 > org.apache.spark.sql.AnalysisException: Queries with streaming sources must be executed with writeStream.start(), or from a streaming table or flow definition within a Spark Declarative Pipeline.;\nkafka
 
-The hypothesis is that the [com.amazon.deequ.dqdl.EvaluateDataQuality](https://github.com/awslabs/deequ/blob/master/src/main/scala/com/amazon/deequ/dqdl/EvaluateDataQuality.scala) for the underlying Deequ library doesn't appear to support Structured Streaming.
+The hypothesis is that the [com.amazon.deequ.dqdl.EvaluateDataQuality](https://github.com/awslabs/deequ/blob/master/src/main/scala/com/amazon/deequ/dqdl/EvaluateDataQuality.scala) for the underlying Deequ library doesn't support Structured Streaming. Kafka topic can also be read via `SparkSession.read` instead of `SparkSession.readStream` which initiates the DataFrame for batch processing.
+
+Based on the documentation and tutorials available, stream processing can be converted to batch processing in the middle of the Spark execution plan with `pyspark.sql.streaming.DataStreamWriter.foreachBatch`, but batch processing can't be directly converted to stream processing. A streaming DataFrame can be joined with a batch DataFrame to return a streaming DataFrame.
+
+See [Batch vs. streaming data processing in Databricks](https://docs.databricks.com/aws/en/data-engineering/batch-vs-streaming) for more information.
+
+### Spark Streaming + Deequ - Logging
+
+Apache Spark execution of the code has the following log statements repeated, which can push valuable log entries out of the console buffer.
+> 26/09/13 14:15:46 INFO MicroBatchExecutionContext: Extracting source progress metrics for source=KafkaV2[Subscribe[RCCCBPAYMENT]] took duration_ms=0
+> 
+> 26/09/13 14:15:46 INFO MicroBatchExecutionContext: Extracting sink progress metrics for sink=ForeachBatchSink took duration_ms=0
+> 
+> ...
+> 
+> 26/09/13 14:19:55 INFO ProgressReporter: Streaming query has been idle and waiting for new data more than 10000 ms.
+
+AWS Glue execution of the code doesn't have the above log statements, presumably because they're suppressed with a variant of the last log statement being allowed to propagate as follows:
+> 26/09/13 14:18:38 INFO MicroBatchExecution: Streaming query has been idle and waiting for new data more than 10000 ms.
