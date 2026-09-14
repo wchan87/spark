@@ -11,7 +11,8 @@ revolving_balance_fred_id: str = "RCCCBBALREV"
 fred_ids: list[str] = [total_balance_fred_id, revolving_balance_fred_id]
 
 conf = {
-    'bootstrap.servers': 'localhost:9092'
+    # localhost:9092 also works for my developer setup
+    'bootstrap.servers': 'localhost:19092'
 }
 
 producer: Producer = Producer(conf)

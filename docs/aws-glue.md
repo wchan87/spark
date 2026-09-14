@@ -159,16 +159,15 @@ The following instructions are to publish OpenLineage information to a local ins
 
 The following instructions are for setting up a local Kafka and running a Glue Streaming job
 1. Based on [Developing event-driven applications with Kafka and Docker > Starting Kafka](https://docs.docker.com/guides/kafka/#starting-kafka)
-   1. Start the Kafka container
+   1. Start the Kafka container, `-p 9092:9092` is for other Docker containers and `-p 19092:19092` is for host
       ```bash
-      docker run --name=kafka -p 9092:9092 -d \
+      docker run --name=kafka -p 9092:9092 -p 19092:19092 -d \
         -e KAFKA_NODE_ID=1 \
         -e KAFKA_PROCESS_ROLES=broker,controller \
-        -e KAFKA_LISTENERS=CONTROLLER://0.0.0.0:9093,BROKER://0.0.0.0:9092 \
-        -e KAFKA_ADVERTISED_LISTENERS=BROKER://host.docker.internal:9092 \
+        -e KAFKA_LISTENERS=CONTROLLER://0.0.0.0:9093,PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:19092 \
+        -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://host.docker.internal:9092,PLAINTEXT_HOST://localhost:19092 \
         -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
-        -e KAFKA_INTER_BROKER_LISTENER_NAME=BROKER \
-        -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,BROKER:PLAINTEXT \
+        -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT \
         -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 \
         -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
         apache/kafka:4.3.1
@@ -178,6 +177,7 @@ The following instructions are for setting up a local Kafka and running a Glue S
          ```bash
          docker exec kafka /opt/kafka/bin/kafka-cluster.sh cluster-id --bootstrap-server :9092
          ```
+      * `PLAINTEXT_HOST` is necessary if `/etc/hosts` (i.e., `C:\Windows\System32\drivers\etc\hosts`) doesn't include `host.docker.internal` and `gateway.docker.internal`. See [Explore networking how-tos on Docker Desktop](https://docs.docker.com/desktop/features/networking/networking-how-tos/) for more details. It hasn't been consistent about whether Docker Desktop installation automatically populates these entries.
    2. Create the `RCCCBBALTOT`, `RCCCBBALREV` and `RCCCBPAYMENT` topics via [kafka-topics.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-topics-sh)
       ```bash
       docker exec kafka /opt/kafka/bin/kafka-topics.sh --create --bootstrap-server :9092 --topic RCCCBBALTOT --replication-factor 1
@@ -214,7 +214,7 @@ The following instructions are for setting up a local Kafka and running a Glue S
    ```
    * Check what's published in the `RCCCBPAYMENT` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
       ```bash
-      docker exec -ti kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic RCCCBPAYMENT --from-beginning
+      docker exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server :9092 --topic RCCCBPAYMENT --from-beginning
       ```
 
 AWS Glue Streaming has [two execution models](https://docs.aws.amazon.com/glue/latest/dg/glue-streaming-execution-models.html)

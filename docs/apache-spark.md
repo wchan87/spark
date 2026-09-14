@@ -116,8 +116,8 @@ See the related documentation:
       * `pyspark.sql.SparkSession.read` returns [pyspark.sql.DataFrameReader](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameReader.html)
       * `pyspark.sql.SparkSession.readStream` returns [pyspark.sql.streaming.DataStreamReader](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamReader.html)
     * [pyspark.sql.DataFrame.write](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.write.html) can be used instead of [pyspark.sql.DataFrame.writeStream](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrame.writeStream.html) based on [Writing the output of Batch Queries to Kafka](https://spark.apache.org/docs/latest/streaming/structured-streaming-kafka-integration.html#writing-the-output-of-batch-queries-to-kafka)
-      * `pyspark.sql.SparkSession.write` returns [pyspark.sql.DataFrameWriter](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameWriter.html)
-      * `pyspark.sql.SparkSession.writeStream` returns [pyspark.sql.streaming.DataStreamWriter](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamWriter.html)
+      * `pyspark.sql.DataFrame.write` returns [pyspark.sql.DataFrameWriter](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql/api/pyspark.sql.DataFrameWriter.html)
+      * `pyspark.sql.DataFrame.writeStream` returns [pyspark.sql.streaming.DataStreamWriter](https://spark.apache.org/docs/latest/api/python/reference/pyspark.ss/api/pyspark.sql.streaming.DataStreamWriter.html)
 
 Refer to the similar [AWS Glue](/docs/aws-glue.md#aws-glue-streaming) for the initial setup
 1. Set up workspace and script locations
