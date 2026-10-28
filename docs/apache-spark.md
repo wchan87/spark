@@ -228,3 +228,20 @@ Apache Spark execution of the code has the following log statements repeated, wh
 
 AWS Glue execution of the code doesn't have the above log statements, presumably because they're suppressed with a variant of the last log statement being allowed to propagate as follows:
 > 26/09/13 14:18:38 INFO MicroBatchExecution: Streaming query has been idle and waiting for new data more than 10000 ms.
+
+## Spark + Apache Iceberg
+
+Refer to the [Apache Iceberg > Quickstart > Spark > Writing Data to a Table](https://iceberg.apache.org/spark-quickstart/#writing-data-to-a-table) for more information.
+
+The following instructions assume that Steps 1 to 4 from the similar [AWS Glue](/docs/aws-glue.md#aws-glue--apache-iceberg) have been run already
+1. Set up the Java libraries needed for Iceberg integration to work
+    ```bash
+    SPARK_SUBMIT_ARGS_PACKAGES="--packages org.apache.iceberg:iceberg-spark-runtime-4.1_2.13:1.12.0,software.amazon.awssdk:bundle:2.56.0"
+    ```
+2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+    ```bash
+    docker run -it --rm --name spark_4 -u 0 \
+        -v $PWD/src/spark/:/opt/spark/work-dir/ \
+        spark:4.1.2-scala2.13-java21-python3-ubuntu \
+        /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS $SPARK_SUBMIT_ARGS_PACKAGES /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+    ```

@@ -1,5 +1,6 @@
 # Documentation
 
+* [Apache Iceberg](apache-iceberg.md)
 * [Apache Spark](apache-spark.md)
 * [AWS Glue](aws-glue.md)
 * [MinIO](minio.md)

@@ -1,5 +1,7 @@
 # MinIO
 
+[MinIO](https://github.com/minio/minio) "is a high-performance, S3 compatible object store, open sourced under GNU AGPLv3 license." It is no longer maintained and was archived in 2026 but is useful for local testing of S3 integration.
+
 1. Run the Docker container, `minio` based on the  Docker image, [dhi.io/minio](https://hub.docker.com/hardened-images/catalog/dhi/minio)
     ```bash
     docker run -d --name minio -p 9000:9000 -p 9001:9001 \

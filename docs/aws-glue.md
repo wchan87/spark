@@ -10,7 +10,7 @@ Refer to [here](https://docs.aws.amazon.com/glue/latest/dg/develop-local-docker-
 
 From [DockerHub > amazon/aws-glue-libs](https://hub.docker.com/r/amazon/aws-glue-libs), we will use Glue 5.0 as the starting point by pulling the following image:
 ```bash
-docker pull amazon/aws-glue-libs:5.0.9
+docker pull amazon/aws-glue-libs:5.0.10
 ```
 
 ### AWS Glue Docker Run
@@ -29,7 +29,7 @@ To run AWS Glue locally using Docker against [word_count.py](/src/spark/word_cou
    ```bash
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        spark-submit /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
    * `SCRIPT_ARGS` is the same as the script location because we're parsing the lines from the same script to perform word count
@@ -41,7 +41,7 @@ To run the AWS Glue pytest, use the following command:
 docker run -i --rm --name glue5_pytest \
     -v $PWD/:/home/hadoop/workspace/ \
     --workdir /home/hadoop/workspace/ \
-    amazon/aws-glue-libs:5.0.9 \
+    amazon/aws-glue-libs:5.0.10 \
     -c "python3.11 -m pip install \"open-data-contract-standard==3.1.2\" && python3.11 -m pytest --disable-warnings"
 ```
 
@@ -50,7 +50,7 @@ To run [coverage](https://coverage.readthedocs.io/en/latest/) as well
 docker run -i --rm --name glue5_pytest \
     -v $PWD/:/home/hadoop/workspace/ \
     --workdir /home/hadoop/workspace/ \
-    amazon/aws-glue-libs:5.0.9 \
+    amazon/aws-glue-libs:5.0.10 \
     -c "python3.11 -m pip install \"open-data-contract-standard==3.1.2\" && python3.11 -m coverage run -m pytest --disable-warnings && python3.11 -m coverage xml && python3.11 -m coverage html"
 ```
 
@@ -79,7 +79,7 @@ The following instructions are for running PySpark application defined by [src/s
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/temp/:/home/hadoop/temp/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 
@@ -101,7 +101,7 @@ The following instructions are for running PySpark application defined by [src/s
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/src/libraries/:/home/hadoop/libraries/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        -c "export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/ && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
    * [src/libraries/](/src/libraries/) and `export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/` is mounted to make it accessible as if a zip file with the same content is passed to `--extra-py-files`
@@ -126,7 +126,7 @@ The following instructions are for running PySpark application defined by [src/s
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/src/odcs/:/home/hadoop/config/ \
        -v $PWD/temp/:/home/hadoop/temp/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        -c "python3.11 -m pip install \"open-data-contract-standard==3.1.2\" && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
 
@@ -150,7 +150,7 @@ The following instructions are to publish OpenLineage information to a local ins
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/temp/:/home/hadoop/temp/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 3. Check the data lineage through http://localhost:3000/
@@ -209,7 +209,7 @@ The following instructions are for setting up a local Kafka and running a Glue S
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/src/libraries/:/home/hadoop/libraries/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        -c "export PYTHONPATH=\$PYTHONPATH:/home/hadoop/libraries/ && spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS"
    ```
    * Check what's published in the `RCCCBPAYMENT` topic via [kafka-console-consumer.sh](https://docs.confluent.io/kafka/operations-tools/kafka-tools.html#kafka-console-consumer-sh)
@@ -235,7 +235,7 @@ The following instructions are for running PySpark application defined by [src/s
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
        -v $PWD/temp/:/home/hadoop/temp/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
 
@@ -252,6 +252,79 @@ The following instructions are for running PySpark application defined by [src/s
    ```bash
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
-       amazon/aws-glue-libs:5.0.9 \
+       amazon/aws-glue-libs:5.0.10 \
        spark-submit $SPARK_SUBMIT_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+   ```
+
+### AWS Glue + Apache Iceberg
+
+Refer to [Documentation > AWS Glue > User Guide > Using the Iceberg framework in AWS Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-format-iceberg.html) for more information.
+
+The following instructions are for running PySpark application defined by [src/spark/credit_card_balance_iceberg.py](/src/spark/credit_card_balance_iceberg.py)
+1. Set up common arguments for Iceberg integration
+   ```bash
+   SPARK_CONF_COMMON_ARGS="
+   --conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
+   --conf spark.sql.catalog.local_catalog=org.apache.iceberg.spark.SparkCatalog \
+   "
+   ```
+2. Set up storage arguments
+   1. S3 File I/O - Refer to [MinIO](minio.md) for setting up local S3 for testing purposes
+      ```bash
+      SPARK_CONF_STORAGE_ARGS="
+      --conf spark.sql.catalog.local_catalog.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
+      --conf spark.sql.catalog.local_catalog.warehouse=s3://test-bucket/warehouse \
+      --conf spark.hadoop.fs.s3a.endpoint=http://host.docker.internal:9000 \
+      --conf spark.hadoop.fs.s3a.access.key=admin \
+      --conf spark.hadoop.fs.s3a.secret.key=password \
+      --conf spark.hadoop.fs.s3a.path.style.access=true \
+      --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
+      --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false \
+      "
+      ```
+   2. Local File I/O
+      ```bash
+      SPARK_CONF_STORAGE_ARGS="
+      --conf spark.sql.catalog.local_catalog.io-impl=org.apache.iceberg.hadoop.HadoopFileIO \
+      --conf spark.sql.catalog.local_catalog.warehouse=file:///home/hadoop/warehouse/ \
+      "
+      ```
+3. Set up catalog arguments
+   1. Hive Metastore Catalog
+      ```bash
+      SPARK_CONF_CATALOG_ARGS="
+      --conf spark.sql.catalog.local_catalog.type=hive \
+      --conf spark.sql.catalog.local_catalog.uri=thrift://host.docker.internal:9083 \
+      --conf spark.hadoop.hive.metastore.uris=thrift://host.docker.internal:9083 \
+      --conf spark.hadoop.hive.metastore.client.factory.class=org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClientFactory \
+      --conf spark.hadoop.hive.metastore.schema.verification=false \
+      "
+      ```
+      * **Note**: This approach doesn't work and runs into an error currently which has to be resolved
+   2. REST Catalog
+      ```bash
+      SPARK_CONF_CATALOG_ARGS="
+      --conf spark.sql.catalog.local_catalog.type=rest \
+      --conf spark.sql.catalog.local_catalog.uri=http://host.docker.internal:8181 \
+      "
+      ```
+      * **Note**: This approach doesn't work and runs into an error currently which has to be resolved
+   3. Glue Catalog
+      ```bash
+      SPARK_CONF_CATALOG_ARGS="
+      --conf spark.sql.catalog.local_catalog.type=glue \
+      "
+      ```
+4. Set up script location and script arguments
+   ```bash
+   SCRIPT_FILE_NAME=credit_card_balance_iceberg.py
+   SCRIPT_ARGS=
+   ```
+5. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+   ```bash
+   docker run -it --rm --name glue5_spark_submit \
+       -v $PWD/src/spark/:/home/hadoop/workspace/ \
+       -v $PWD/temp/output/warehouse:/home/hadoop/warehouse/ \
+       amazon/aws-glue-libs:5.0.10 \
+       spark-submit $SPARK_CONF_COMMON_ARGS $SPARK_CONF_STORAGE_ARGS $SPARK_CONF_CATALOG_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
