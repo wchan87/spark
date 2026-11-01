@@ -35,10 +35,10 @@ Based on [this reference](https://hive.apache.org/docs/latest/admin/iceberg-rest
 
 Refer to [Global Hive catalog](https://iceberg.apache.org/docs/latest/hive/#global-hive-catalog) documentation.
 
-The Docker image, [apache/hive:4.2.1](https://hub.docker.com/r/apache/hive/tags?name=4.2.1) can be used to start a Hive Metastore accessible on port 9083.
+The Docker image, [apache/hive:3.1.3](https://hub.docker.com/r/apache/hive/tags?name=3.1.3) can be used to start a Hive Metastore accessible on port 9083.
 ```bash
-docker pull apache/hive:4.2.1
-docker run -d -p 9083:9083 --env SERVICE_NAME=metastore --name hive4-metastore apache/hive:4.2.1
+docker pull apache/hive:3.1.3
+docker run -d -p 9083:9083 --env SERVICE_NAME=metastore --name hive3-metastore apache/hive:3.1.3
 ```
 * The corresponding Spark configuration to connect to the Hive catalog is as follows:
     ```bash
@@ -48,8 +48,28 @@ docker run -d -p 9083:9083 --env SERVICE_NAME=metastore --name hive4-metastore a
     ```
 * There's an alternative command to start the Hive Server
     ```bash
-    docker run -d -p 10000:10000 -p 10002:10002 --env SERVICE_NAME=hiveserver2 --name hive4 apache/hive:4.2.1 
+    docker run -d -p 10000:10000 -p 10002:10002 --env SERVICE_NAME=hiveserver2 --name hive3 apache/hive:3.1.3
     ```
+    * Hive Web UI is accessible via http://localhost:10002/
+    * [HiveServer2](https://hive.apache.org/docs/latest/user/hiveserver2-overview/) is accessible via `jdbc:hive2://localhost:10000/default`
+
+The Docker image, [apache/hive:4.2.1](https://hub.docker.com/r/apache/hive/tags?name=4.2.1) can't be used due to a known issue, [#12878](https://github.com/apache/iceberg/issues/12878) which uses a method that Apache Hive 4 deprecated
+```bash
+docker pull apache/hive:4.2.1
+docker run -d -p 9083:9083 --env SERVICE_NAME=metastore --name hive4-metastore apache/hive:4.2.1
+docker run -d -p 10000:10000 -p 10002:10002 --env SERVICE_NAME=hiveserver2 --name hive4 apache/hive:4.2.1
+```
+* The error that's returned due to this issue is as follows:
+    ```
+    Caused by: org.apache.thrift.TApplicationException: Invalid method name: 'get_table'
+          at org.apache.thrift.TServiceClient.receiveBase(TServiceClient.java:79)
+    ```
+
+[PyIceberg](https://py.iceberg.apache.org/) "is a Python implementation for accessing Iceberg tables, without the need of a JVM" through the PyPi package, [pyiceberg](https://pypi.org/project/pyiceberg/).
+```bash
+pyiceberg --uri thrift://localhost:9083 list
+pyiceberg --uri thrift://localhost:9083 describe fred
+```
 
 ### Iceberg REST Catalog
 

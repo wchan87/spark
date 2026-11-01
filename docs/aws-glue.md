@@ -300,7 +300,8 @@ The following instructions are for running PySpark application defined by [src/s
       --conf spark.hadoop.hive.metastore.schema.verification=false \
       "
       ```
-      * **Note**: This approach doesn't work and runs into an error currently which has to be resolved
+      * Doesn't work with Local File I/O without the file location being accessible by Hive Metastore as well
+      * Doesn't work with S3 File I/O without the S3 location being accessible by Hive Metastore as well
    2. REST Catalog
       ```bash
       SPARK_CONF_CATALOG_ARGS="
@@ -309,10 +310,16 @@ The following instructions are for running PySpark application defined by [src/s
       "
       ```
       * **Note**: This approach doesn't work and runs into an error currently which has to be resolved
-   3. Glue Catalog
+   3. Glue Catalog, untested due to dependency on AWS
       ```bash
       SPARK_CONF_CATALOG_ARGS="
       --conf spark.sql.catalog.local_catalog.type=glue \
+      "
+      ```
+   4. Hadoop Catalog, compatible with Local File I/O
+      ```bash
+      SPARK_CONF_CATALOG_ARGS="
+      --conf spark.sql.catalog.local_catalog.type=hadoop \
       "
       ```
 4. Set up script location and script arguments
