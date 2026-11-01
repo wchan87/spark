@@ -78,13 +78,22 @@ Refer to the [Iceberg REST Catalog](https://iceberg.apache.org/docs/latest/rest-
 The Docker image, [apache/iceberg-rest-fixture:1.10.1](https://hub.docker.com/r/apache/iceberg-rest-fixture/tags?name=1.10.1) can be used to start a standalone Iceberg REST catalog accessible on port 8181.
 ```bash
 docker pull apache/iceberg-rest-fixture:1.10.1
-docker run -d -p 8181:8181 --name iceberg-rest apache/iceberg-rest-fixture
+docker run -d -p 8181:8181 --name iceberg-rest \
+    -e AWS_ACCESS_KEY_ID=admin \
+    -e AWS_SECRET_ACCESS_KEY=password \
+    -e AWS_REGION=us-east-1 \
+    -e CATALOG_WAREHOUSE=s3://test-bucket/warehouse \
+    -e CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO \
+    -e CATALOG_S3_ENDPOINT=http://host.docker.internal:9000 \
+    -e CATALOG_S3_PATH__STYLE__ACCESS=true \
+    apache/iceberg-rest-fixture:1.10.1
 ```
 * The corresponding Spark configuration to connect to the REST catalog is as follows:
     ```bash
     --conf spark.sql.catalog.app.type=rest \
     --conf spark.sql.catalog.app.uri=http://host.docker-internal:8181 \
     ```
+* The Iceberg REST catalog is set up to use [MinIO](minio.md) as its warehouse location. This is necessary to integrate properly with the S3 File I/O. If Local File I/O is used, then the Iceberg REST catalog may need to have the same mount or file path.
 
 [PyIceberg](https://py.iceberg.apache.org/) "is a Python implementation for accessing Iceberg tables, without the need of a JVM" through the PyPi package, [pyiceberg](https://pypi.org/project/pyiceberg/).
 ```bash

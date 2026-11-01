@@ -234,14 +234,29 @@ AWS Glue execution of the code doesn't have the above log statements, presumably
 Refer to the [Apache Iceberg > Quickstart > Spark > Writing Data to a Table](https://iceberg.apache.org/spark-quickstart/#writing-data-to-a-table) for more information.
 
 The following instructions assume that Steps 1 to 4 from the similar [AWS Glue](/docs/aws-glue.md#aws-glue--apache-iceberg) have been run already
-1. Set up the Java libraries needed for Iceberg integration to work
+1. Set up the following Spark configuration arguments for S3 File I/O
+    ```bash
+    SPARK_CONF_AWS_SDK_ARGS="
+    --conf spark.driver.extraJavaOptions=-Daws.region=us-east-1 \
+    --conf spark.executor.extraJavaOptions=-Daws.region=us-east-1 \
+    "
+    ```
+   * The underlying [AWS SDK v2 client](https://github.com/aws/aws-sdk-java-v2) throws the following error without the AWS region
+       ```
+       Driver stacktrace:
+       : An error occurred while calling o57.createOrReplace.
+       : org.apache.spark.SparkException: Job aborted due to stage failure: Task 12 in stage 0.0 failed 1 times, most recent failure: Lost task 12.0 in stage 0.0 (TID 12) (0008d2fde4d6 executor driver): software.amazon.awssdk.core.exception.SdkClientException: Unable to load region from any of the providers in the chain software.amazon.awssdk.regions.providers.DefaultAwsRegionProviderChain@28b15609: [software.amazon.awssdk.regions.providers.SystemSettingsRegionProvider@396a0cb6: Unable to load region from system settings. Region must be specified either via environment variable (AWS_REGION) or  system property (aws.region)., software.amazon.awssdk.regions.providers.AwsProfileRegionProvider@70f9fe4: No region provided in profile: default, software.amazon.awssdk.regions.providers.InstanceProfileRegionProvider@3f24e2d7: Unable to contact EC2 metadata service.]
+       ```
+2. Set up the Java libraries needed for Iceberg integration to work
     ```bash
     SPARK_SUBMIT_ARGS_PACKAGES="--packages org.apache.iceberg:iceberg-spark-runtime-4.1_2.13:1.12.0,software.amazon.awssdk:bundle:2.56.0"
     ```
-2. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
+3. Run the container with [spark-submit](https://spark.apache.org/docs/latest/submitting-applications.html)
     ```bash
     docker run -it --rm --name spark_4 -u 0 \
         -v $PWD/src/spark/:/opt/spark/work-dir/ \
+        -v $PWD/temp/output/warehouse:/tmp/warehouse/ \
         spark:4.1.2-scala2.13-java21-python3-ubuntu \
-        /opt/spark/bin/spark-submit $SPARK_SUBMIT_ARGS $SPARK_SUBMIT_ARGS_PACKAGES /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
+        /opt/spark/bin/spark-submit $SPARK_CONF_COMMON_ARGS $SPARK_CONF_STORAGE_ARGS SPARK_CONF_AWS_SDK_ARGS $SPARK_CONF_CATALOG_ARGS $SPARK_SUBMIT_ARGS_PACKAGES /opt/spark/work-dir/$SCRIPT_FILE_NAME $SCRIPT_ARGS
     ```
+   * `-v $PWD/temp/output/warehouse:/tmp/warehouse/` is intended for Local File I/O

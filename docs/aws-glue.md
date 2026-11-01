@@ -274,23 +274,21 @@ The following instructions are for running PySpark application defined by [src/s
       SPARK_CONF_STORAGE_ARGS="
       --conf spark.sql.catalog.local_catalog.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
       --conf spark.sql.catalog.local_catalog.warehouse=s3://test-bucket/warehouse \
-      --conf spark.hadoop.fs.s3a.endpoint=http://host.docker.internal:9000 \
-      --conf spark.hadoop.fs.s3a.access.key=admin \
-      --conf spark.hadoop.fs.s3a.secret.key=password \
-      --conf spark.hadoop.fs.s3a.path.style.access=true \
-      --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
-      --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false \
+      --conf spark.sql.catalog.local_catalog.s3.endpoint=http://host.docker.internal:9000 \
+      --conf spark.sql.catalog.local_catalog.s3.access-key-id=admin \
+      --conf spark.sql.catalog.local_catalog.s3.secret-access-key=password \
+      --conf spark.sql.catalog.local_catalog.s3.path-style-access=true \
       "
       ```
    2. Local File I/O
       ```bash
       SPARK_CONF_STORAGE_ARGS="
       --conf spark.sql.catalog.local_catalog.io-impl=org.apache.iceberg.hadoop.HadoopFileIO \
-      --conf spark.sql.catalog.local_catalog.warehouse=file:///home/hadoop/warehouse/ \
+      --conf spark.sql.catalog.local_catalog.warehouse=file:///tmp/warehouse/ \
       "
       ```
 3. Set up catalog arguments
-   1. Hive Metastore Catalog
+   1. Hive Metastore Catalog - Refer to [Iceberg Hive Catalog](apache-iceberg.md#iceberg-hive-catalog)
       ```bash
       SPARK_CONF_CATALOG_ARGS="
       --conf spark.sql.catalog.local_catalog.type=hive \
@@ -302,14 +300,13 @@ The following instructions are for running PySpark application defined by [src/s
       ```
       * Doesn't work with Local File I/O without the file location being accessible by Hive Metastore as well
       * Doesn't work with S3 File I/O without the S3 location being accessible by Hive Metastore as well
-   2. REST Catalog
+   2. REST Catalog, compatible with S3 File I/O - Refer to [Iceberg REST Catalog](apache-iceberg.md#iceberg-rest-catalog)
       ```bash
       SPARK_CONF_CATALOG_ARGS="
       --conf spark.sql.catalog.local_catalog.type=rest \
       --conf spark.sql.catalog.local_catalog.uri=http://host.docker.internal:8181 \
       "
       ```
-      * **Note**: This approach doesn't work and runs into an error currently which has to be resolved
    3. Glue Catalog, untested due to dependency on AWS
       ```bash
       SPARK_CONF_CATALOG_ARGS="
@@ -331,7 +328,8 @@ The following instructions are for running PySpark application defined by [src/s
    ```bash
    docker run -it --rm --name glue5_spark_submit \
        -v $PWD/src/spark/:/home/hadoop/workspace/ \
-       -v $PWD/temp/output/warehouse:/home/hadoop/warehouse/ \
+       -v $PWD/temp/output/warehouse:/tmp/warehouse/ \
        amazon/aws-glue-libs:5.0.10 \
        spark-submit $SPARK_CONF_COMMON_ARGS $SPARK_CONF_STORAGE_ARGS $SPARK_CONF_CATALOG_ARGS /home/hadoop/workspace/$SCRIPT_FILE_NAME $SCRIPT_ARGS
    ```
+   * `-v $PWD/temp/output/warehouse:/tmp/warehouse/` is intended for Local File I/O
